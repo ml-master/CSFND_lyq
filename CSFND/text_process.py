@@ -102,27 +102,27 @@ def get_weibo_matrix(data_type):
 
     n_lines = len(rumor_content)
     for idx in tqdm.tqdm(range(2, n_lines, 3)):
-        tweet_id = rumor_content[idx-2].split('|')[0]
-        one_rumor = rumor_content[idx].strip()
-        one_rumor = text_filter_chinese(one_rumor)
+        tweet_id = rumor_content[idx - 2].split('|')[0]  # 得到ID
+        one_rumor = rumor_content[idx].strip()  #得到Text
+        one_rumor = text_filter_chinese(one_rumor)  #文本处理
         if one_rumor:
-            images = rumor_content[idx-1].split('|')
+            images = rumor_content[idx - 1].split('|')
             for image in images:
                 img = image.split('/')[-1]
                 if img in rumor_images:
                     image_lists.append(picture_filter('{}/rumor_images/{}'.format(corpus_dir, img)))
                     labels.append([0, 1])
                     text_lists.append(one_rumor)
-                    text_image_ids.append('{}|{}'.format(tweet_id, img.split('.')[0])) 
+                    text_image_ids.append('{}|{}'.format(tweet_id, img.split('.')[0]))
                     break
 
     n_lines = len(nonrumor_content)
     for idx in tqdm.tqdm(range(2, n_lines, 3)):
-        tweet_id = nonrumor_content[idx-2].split('|')[0]
+        tweet_id = nonrumor_content[idx - 2].split('|')[0]
         one_nonrumor = nonrumor_content[idx].strip()
         one_nonrumor = text_filter_chinese(one_nonrumor)
         if one_nonrumor:
-            images = nonrumor_content[idx-1].split('|')
+            images = nonrumor_content[idx - 1].split('|')
             for image in images:
                 img = image.split('/')[-1]
                 if img in nonrumor_images:
@@ -151,13 +151,13 @@ def get_twitter_matrix(data_type):
     corpus_dir = '../twitter_dataset'
     if data_type == 'train':
         tweets = open('{}/devset/posts.txt'.format(corpus_dir), 'r').readlines()[1:]
-        image_index = 3 # 这是找到图像索引的位置 在第4个
+        image_index = 3  # 这是找到图像索引的位置 在第4个
         image_dirs = '{}/devset/images/'.format(corpus_dir)
-        image_files = list(filter(lambda x: not x.endswith('.txt'), os.listdir(image_dirs))) # 这里过滤原始数据中以txt结尾的图片
-        image_name = [image_file.split('.')[0] for image_file in image_files] # 加载到数组中。
-    elif data_type == 'test': 
+        image_files = list(filter(lambda x: not x.endswith('.txt'), os.listdir(image_dirs)))  # 这里过滤原始数据中以txt结尾的图片
+        image_name = [image_file.split('.')[0] for image_file in image_files]  # 加载到数组中。
+    elif data_type == 'test':
         tweets = open('{}/testset/posts_groundtruth.txt'.format(corpus_dir), 'r').readlines()[1:]
-        image_index = 4 # 找到图片的位置，第5个 从0开始计数。
+        image_index = 4  # 找到图片的位置，第5个 从0开始计数。
         image_dirs = '{}/testset/images/'.format(corpus_dir)
         image_files = list(filter(lambda x: not x.endswith('.txt'), os.listdir(image_dirs)))
         image_name = [image_file.split('.')[0] for image_file in image_files]
@@ -166,15 +166,15 @@ def get_twitter_matrix(data_type):
 
     for lines in tqdm.tqdm(tweets):
         args = lines.strip().split('\t')
-        tweet_id = args[0] # 找到 tweet_id 
-        for img in args[image_index].split(','): # 取图片
-            if img in image_name: # 以图片为准，对过滤后的图片数据进行处理，从而得到数据集。
+        tweet_id = args[0]  # 找到 tweet_id
+        for img in args[image_index].split(','):  # 取图片
+            if img in image_name:  # 以图片为准，对过滤后的图片数据进行处理，从而得到数据集。
                 image_lists.append(picture_filter('{}/{}'.format(image_dirs, image_files[image_name.index(img)])))
-                labels.append(label_dict[args[-1]]) # 加入label列表
+                labels.append(label_dict[args[-1]])  # 加入label列表
                 tweet_text = args[1]
-                tweet_text = text_filter_english(tweet_text) # 过滤英文
-                text_lists.append(tweet_text) # 加入文本列表中。
-                text_image_ids.append('{}|{}'.format(tweet_id, img)) # 只是将两个ID拼在一起的作用是？
+                tweet_text = text_filter_english(tweet_text)  # 过滤英文
+                text_lists.append(tweet_text)  # 加入文本列表中。
+                text_image_ids.append('{}|{}'.format(tweet_id, img))  # 只是将两个ID拼在一起的作用是？
                 break
 
     assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
@@ -196,26 +196,50 @@ def get_gossipcop_matrix(data_type, is_generated):
     corpus_dir = '../gossipcop_dataset'
     if data_type == "train":
         df = pd.read_json('{}/gossipcop_v3-1_style_based_fake_{}.json'.format(corpus_dir, data_type))
-    elif data_type == 'test': 
+    elif data_type == 'test':
         df = pd.read_json('{}/gossipcop_v3-1_style_based_fake_{}.json'.format(corpus_dir, data_type))
     else:
-        raise ValueError('data type must be train or test!') 
+        raise ValueError('data type must be train or test!')
     if is_generated:
         text_lists = df["generated_text"].map(lambda x: text_filter_english(x)).to_list()
     else:
         text_lists = df["origin_text"].map(lambda x: text_filter_english(x)).to_list()
     # 生成带有绝对路径的图像ID    
-    image_lists_pth = df["origin_id"].map(lambda x: corpus_dir+"/" + img_dir+"/" + str(x)+"_top_img.png").tolist()
-    labels  = df["generated_label"].map(lambda x: label_dict[x]).tolist()
-    text_image_ids = df["origin_id"].tolist()    
+    image_lists_pth = df["origin_id"].map(lambda x: corpus_dir + "/" + img_dir + "/" + str(x) + "_top_img.png").tolist()
+    labels = df["generated_label"].map(lambda x: label_dict[x]).tolist()
+    text_image_ids = df["origin_id"].tolist()
     for img in tqdm.tqdm(image_lists_pth):
         image_lists.append(picture_filter(img))
     assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
-    
+
     return text_lists, image_lists, labels, text_image_ids
 
-def dataset_filter(dataset_name, data_type):
 
+def get_gossipcop_matrix_origin(data_type):
+    text_lists = []  # [train_number]
+    image_lists = []  # [train_num]
+    labels = []  # [train_num, 2]
+    label_dict = {'fake': [0, 1], 'real': [1, 0]}
+    text_image_ids = []
+    img_dir = "top_img"
+    corpus_dir = '../gossipcop_dataset'
+    assert data_type == 'train' or data_type == 'test' or data_type == 'valid'
+    df = pd.read_json('{}/gossipcop_v3_keep_data_in_proper_length_{}.json'.format(corpus_dir, data_type))
+
+    text_lists = df["text"].map(lambda x: text_filter_english(x)).to_list()
+
+    # 生成带有绝对路径的图像ID
+    image_lists_pth = df["id"].map(lambda x: corpus_dir + "/" + img_dir + "/" + str(x) + "_top_img.png").tolist()
+    labels = df["label"].map(lambda x: label_dict[x]).tolist()
+    text_image_ids = df["id"].tolist()
+    for img in tqdm.tqdm(image_lists_pth):
+        image_lists.append(picture_filter(img))
+    assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
+
+    return text_lists, image_lists, labels, text_image_ids
+
+
+def dataset_filter(dataset_name, data_type):
     if dataset_name == 'weibo':
         text_lists, image_lists, labels, text_image_ids = get_weibo_matrix(data_type)
 
@@ -223,11 +247,10 @@ def dataset_filter(dataset_name, data_type):
         text_lists, image_lists, labels, text_image_ids = get_twitter_matrix(data_type)
 
     elif dataset_name == 'gossipcop_glm':
-        text_lists,image_lists,labels,text_image_ids = get_gossipcop_matrix(data_type,True)
+        text_lists, image_lists, labels, text_image_ids = get_gossipcop_matrix(data_type, True)
+    elif dataset_name == 'gossipcop_glm_origin':
+        text_lists, image_lists, labels, text_image_ids = get_gossipcop_matrix_origin(data_type)
     else:
         raise ValueError('ERROR! Dataset must be weibo or twitter!')
 
     return text_lists, image_lists, labels, text_image_ids
-
-
-

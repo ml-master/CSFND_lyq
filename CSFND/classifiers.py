@@ -16,51 +16,39 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
     tn_list, tp_list, fn_list, fp_list = [], [], [], []
     real_tn_list, real_tp_list, real_fn_list, real_fp_list = [], [], [], []
 
-    if not args.multicls: 
+    if not args.multicls:
         print("use single classifier! ")
         tr_hid_emb = train_hidden_embs
         te_hid_emb = test_hidden_embs
         tr_label = train_label_embs
         te_label = test_label_embs
-        
+
         # single mlp classifier
         y_pre, y_true = mlp(tr_hid_emb, tr_label, te_hid_emb, te_label, input_dim)
         y_pre = y_pre[:, 0]
         te_label = y_true[:, 0]
-    
+
         # 1: positive => real pre, recall, f1
-        real_tn, real_fp, real_fn, real_tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
-        # 0: positive => fake pre, recall, f1
-        tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[1, 0]).ravel()
+        tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
+
         # pres, recalls, f1s, supports = precision_recall_fscore_support(
         #     te_label, y_pre, labels=[0, 1], average=None)
         if verbose:
-            print('          fake pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(tn, fp, fn, tp), end='|')
-            print('real pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(real_tn, real_fp, real_fn, real_tp), end='|')
+            print('          pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(tn, fp, fn, tp), end='\n')
 
         tn_list.append(tn)
         fp_list.append(fp)
         fn_list.append(fn)
         tp_list.append(tp)
 
-        real_tn_list.append(real_tn)
-        real_fp_list.append(real_fp)
-        real_fn_list.append(real_fn)
-        real_tp_list.append(real_tp)
-
-        pre, recall, f1, acc = pre_recall_f1_compute(tn, fp, fn, tp)
-        real_pre, real_recall, real_f1, real_acc = pre_recall_f1_compute(real_tn, real_fp, real_fn, real_tp)
+        acc, acc_real, acc_fake = acc_compute(tn, fp, fn, tp)
 
         if verbose:
-            print('fake pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}'.format(
-                pre, recall, f1, acc), end='|')
-            print('real pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}'.format(
-                real_pre, real_recall, real_f1, real_acc), end='\n')
-         
-        
-     
+            print('acc {:<4f} acc_real {:<4f} acc_fake {:<4f}'.format(
+                acc,acc_real,acc_fake), end='\n')
+
     for cluster_i in range(cluster_num):
-        if not args.multicls: # 如果不是多分类器，直接跳出循环
+        if not args.multicls:  # 如果不是多分类器，直接跳出循环
             print("we do NOT use the multicls for each cluster, so break out")
             break
         if verbose:
@@ -110,25 +98,16 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
                         0, 0, 0,
                         np.sum(te_label == 0), np.sum(te_label == 1), len(te_label)), end='\n')
 
-            # 1: positive => real pre, recall, f1
-            real_tn, real_fp, real_fn, real_tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
-            # 0: positive => fake pre, recall, f1
-            tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[1, 0]).ravel()
+            tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
             # pres, recalls, f1s, supports = precision_recall_fscore_support(
             #     te_label, y_pre, labels=[0, 1], average=None)
             if verbose:
-                print('          fake pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(tn, fp, fn, tp), end='|')
-                print('real pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(real_tn, real_fp, real_fn, real_tp), end='|')
+                print('          pos:tn {:<3d} fp {:<3d} fn {:<3d} tp {:<3d}'.format(tn, fp, fn, tp), end='|')
 
             tn_list.append(tn)
             fp_list.append(fp)
             fn_list.append(fn)
             tp_list.append(tp)
-
-            real_tn_list.append(real_tn)
-            real_fp_list.append(real_fp)
-            real_fn_list.append(real_fn)
-            real_tp_list.append(real_tp)
 
             # if tp == 0:
             #     pre = 0
@@ -139,14 +118,11 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
             #     recall = tp*1.0/(tp+fn)
             #     f1 = 2 * pre * recall / (pre + recall)
             # acc = (tp+tn)*1.0/(tn+tp+fn+fp)
-            pre, recall, f1, acc = pre_recall_f1_compute(tn, fp, fn, tp)
-            real_pre, real_recall, real_f1, real_acc = pre_recall_f1_compute(real_tn, real_fp, real_fn, real_tp)
+            acc, acc_real, acc_fake = acc_compute(tn, fp, fn, tp)
 
             if verbose:
-                print('fake pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}'.format(
-                    pre, recall, f1, acc), end='|')
-                print('real pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}'.format(
-                    real_pre, real_recall, real_f1, real_acc), end='\n')
+                print('acc {:<4f} acc_real {:<4f} acc_fake {:<4f}'.format(
+                    acc, acc_real, acc_fake), end='\n')
 
         else:
             if verbose:
@@ -159,23 +135,16 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
     overall_fn = np.array(fn_list).sum()
     overall_tp = np.array(tp_list).sum()
 
-    real_overall_tn = np.array(real_tn_list).sum()
-    real_overall_fp = np.array(real_fp_list).sum()
-    real_overall_fn = np.array(real_fn_list).sum()
-    real_overall_tp = np.array(real_tp_list).sum()
+    # real_overall_tn = np.array(real_tn_list).sum()
+    # real_overall_fp = np.array(real_fp_list).sum()
+    # real_overall_fn = np.array(real_fn_list).sum()
+    # real_overall_tp = np.array(real_tp_list).sum()
 
-    overall_pre, overall_recall, overall_f1, overall_acc = pre_recall_f1_compute(
-        overall_tn, overall_fp, overall_fn, overall_tp)
-    print('--- overall fake pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}'.format(
-        overall_pre, overall_recall, overall_f1, overall_acc), end='|')
+    acc_overall, acc_real_overall, acc_fake_overall = acc_compute(overall_tn, overall_fp, overall_fn, overall_tp)
+    print('--- overall acc {:<4f} acc_real {:<4f} acc_fake {:<4f}'.format(
+        acc_overall, acc_real_overall, acc_fake_overall), end='\n')
 
-    real_overall_pre, real_overall_recall, real_overall_f1, real_overall_acc = pre_recall_f1_compute(
-        real_overall_tn, real_overall_fp, real_overall_fn, real_overall_tp)
-    print('overall real pre {:<4f} recal {:<4f} f1 {:<4f} acc {:<4f}|{:<10s}'.format(
-        real_overall_pre, real_overall_recall, real_overall_f1, real_overall_acc, svm_type), end='\n')
-
-    return (overall_pre, overall_recall, overall_f1, overall_acc), \
-           (real_overall_pre, real_overall_recall, real_overall_f1, real_overall_acc)
+    return acc_overall, acc_real_overall, acc_fake_overall
 
 
 def pre_recall_f1_compute(tn, fp, fn, tp):
@@ -190,6 +159,14 @@ def pre_recall_f1_compute(tn, fp, fn, tp):
     acc = (tp + tn) * 1.0 / (tn + tp + fn + fp)
 
     return pre, recall, f1, acc
+
+
+def acc_compute(tn, fp, fn, tp):
+    """返回 acc,acc_real,acc_fake"""
+    acc = (tp + tn) * 1.0 / (tp + tn + fp + fn)
+    acc_real = tp * 1.0 / (tp + fp) if tp + fp != 0 else 0
+    acc_fake = tn * 1.0 / (tn + fn) if tn + fn != 0 else 0
+    return acc, acc_real, acc_fake
 
 
 def svm(train_data, train_label, test_data, svm_type):
@@ -210,8 +187,8 @@ def mlp(train_data, train_label, test_data, test_label, input_dim):
                                                batch_size=64,
                                                shuffle=True)
     test_loader = torch.utils.data.DataLoader(dataset=test_data,
-                                               batch_size=64,
-                                               shuffle=True)
+                                              batch_size=64,
+                                              shuffle=True)
 
     mlp1 = MLPClassifier(input_dim, 2).cuda()  # 70*768
     best_test_acc, pre_labels, ground_labels = mlp1.run(301, train_loader, test_loader)
@@ -262,7 +239,7 @@ class MLPClassifier(nn.Module):
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-        return train_loss, train_acc/train_num
+        return train_loss, train_acc / train_num
 
     def valid(self, test_data):
         self.eval()
@@ -283,7 +260,7 @@ class MLPClassifier(nn.Module):
             ground_labels.extend(te_la.clone().detach().cpu().numpy())
         pre_labels = np.array(pre_labels)
         ground_labels = np.array(ground_labels)
-        return test_loss, test_acc/test_num, pre_labels, ground_labels
+        return test_loss, test_acc / test_num, pre_labels, ground_labels
 
     def run(self, epoch, train_data, test_data):
         best_test_acc = -1

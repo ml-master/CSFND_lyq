@@ -1,0 +1,244 @@
+
+the ab hyperparameters UNSPR:True_MultiCLS:True_AGG:True_AVG:False
+===> start training at:  0725-171706
+===> process gossipcop_glm_origin data...
+100%|██████████| 160/160 [00:04<00:00, 33.06it/s]
+    load gossipcop_glm_origin 160   train data from files, include 80 fake and 80 real news.
+===> process gossipcop_glm_origin data...
+ 24%|██▎       | 1033/4379 [00:40<02:33, 21.82it/s]/home/mywsl/anaconda3/envs/csfnd/lib/python3.7/site-packages/PIL/Image.py:997: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  "Palette images with Transparency expressed in bytes should be "
+100%|██████████| 4379/4379 [02:51<00:00, 25.49it/s]
+    load gossipcop_glm_origin 4379  test data from files, include 163 fake and 4216 real news.
+===> process gossipcop_glm_origin data...
+100%|██████████| 160/160 [00:04<00:00, 37.65it/s]
+    load gossipcop_glm_origin 160   valid data from files, include 80 fake and 80 real news.
+===> cluster text and image items and get the cluster pseudo-label.
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.bias', 'cls.seq_relationship.bias', 'cls.seq_relationship.weight', 'cls.predictions.decoder.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+===> perform the Unsupervised context learning to get the context features.
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.bias', 'cls.seq_relationship.bias', 'cls.seq_relationship.weight', 'cls.predictions.decoder.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+     epoch 0 | loss 0.496147, text 0.243150 image 0.252997 |.
+     epoch 1 | loss 0.488447, text 0.241462 image 0.246985 |.
+     epoch 2 | loss 0.478214, text 0.234226 image 0.243988 |.
+     epoch 3 | loss 0.456229, text 0.221596 image 0.234633 |.
+     epoch 4 | loss 0.466830, text 0.229832 image 0.236998 |.
+     epoch 5 | loss 0.453917, text 0.219301 image 0.234616 |.
+     epoch 6 | loss 0.443736, text 0.215870 image 0.227866 |.
+     epoch 7 | loss 0.431039, text 0.209679 image 0.221360 |.
+     epoch 8 | loss 0.425739, text 0.205180 image 0.220558 |.
+     epoch 9 | loss 0.405513, text 0.190531 image 0.214981 |.
+     epoch 10| loss 0.820244, text 0.303407 image 0.516837 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 11| loss 0.743393, text 0.226395 image 0.516999 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 12| loss 0.650950, text 0.225693 image 0.425257 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 13| loss 0.628227, text 0.192872 image 0.435355 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 14| loss 0.594875, text 0.196372 image 0.398504 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 15| loss 0.503398, text 0.124533 image 0.378866 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 16| loss 0.602414, text 0.163753 image 0.438662 |a larger loss, continue.
+     epoch 17| loss 0.567695, text 0.104505 image 0.463191 |a larger loss, continue.
+     epoch 18| loss 0.456178, text 0.177516 image 0.278662 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 19| loss 0.622692, text 0.212513 image 0.410179 |a larger loss, continue.
+     epoch 20| loss 0.659005, text 0.236171 image 0.422833 |a larger loss, continue.
+     epoch 21| loss 0.600120, text 0.294093 image 0.306027 |a larger loss, continue.
+     epoch 22| loss 0.568943, text 0.241272 image 0.327670 |a larger loss, continue.
+     epoch 23| loss 0.427844, text 0.125252 image 0.302592 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 24| loss 0.464016, text 0.097134 image 0.366883 |a larger loss, continue.
+     epoch 25| loss 0.577951, text 0.243283 image 0.334668 |a larger loss, continue.
+     epoch 26| loss 0.586111, text 0.176681 image 0.409430 |a larger loss, continue.
+     epoch 27| loss 0.547167, text 0.197868 image 0.349299 |a larger loss, continue.
+     epoch 28| loss 0.532052, text 0.226649 image 0.305404 |a larger loss, continue.
+     epoch 29| loss 0.420615, text 0.170573 image 0.250041 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 30| loss 0.744265, text 0.325404 image 0.418862 |a larger loss, continue.
+     epoch 31| loss 0.618193, text 0.249335 image 0.368858 |a larger loss, continue.
+     epoch 32| loss 0.445032, text 0.119261 image 0.325771 |a larger loss, continue.
+     epoch 33| no valid triplet samples, skip.
+     epoch 34| no valid triplet samples, skip.
+     epoch 35| loss 0.390138, text 0.099744 image 0.290394 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 36| loss 0.468743, text 0.141274 image 0.327469 |a larger loss, continue.
+     epoch 37| no valid triplet samples, skip.
+     epoch 38| no valid triplet samples, skip.
+     epoch 39| loss 0.772262, text 0.293356 image 0.478906 |a larger loss, continue.
+     epoch 40| loss 0.395193, text 0.026212 image 0.368981 |a larger loss, continue.
+     epoch 41| loss 0.497914, text 0.143957 image 0.353957 |a larger loss, continue.
+     epoch 42| loss 0.432416, text 0.171283 image 0.261133 |a larger loss, continue.
+     epoch 43| no valid triplet samples, skip.
+     epoch 44| loss 0.588940, text 0.208310 image 0.380629 |a larger loss, continue.
+     epoch 45| loss 0.523137, text 0.160558 image 0.362580 |a larger loss, continue.
+     epoch 46| loss 0.303250, text 0.128621 image 0.174629 |a lower loss, save model to: ./gossipcop_glm_origin_bs128_Clu17_unsupervised.pt
+     epoch 47| loss 0.634798, text 0.337902 image 0.296896 |a larger loss, continue.
+     epoch 48| loss 0.641234, text 0.330167 image 0.311067 |a larger loss, continue.
+     epoch 49| loss 0.689694, text 0.205676 image 0.484018 |a larger loss, continue.
+     epoch 50| loss 0.405599, text 0.044779 image 0.360821 |a larger loss, continue.
+     epoch 51| loss 0.474938, text 0.055898 image 0.419040 |a larger loss, continue.
+     epoch 52| loss 0.307702, text 0.116122 image 0.191580 |a larger loss, continue.
+     epoch 53| loss 0.443691, text 0.138232 image 0.305459 |a larger loss, continue.
+     epoch 54| no valid triplet samples, skip.
+     epoch 55| loss 0.529460, text 0.231530 image 0.297929 |a larger loss, continue.
+     epoch 56| loss 0.453040, text 0.238431 image 0.214609 |a larger loss, continue.
+     epoch 57| loss 0.387693, text 0.191685 image 0.196008 |a larger loss, continue.
+early stop with patience 10 at epoch  47
+===> training the main model.
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.bias', 'cls.seq_relationship.bias', 'cls.seq_relationship.weight', 'cls.predictions.decoder.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+    => select the primary modality: image
+  Epoch 00| use the attention agg context information
+train loss 2.588846, con 0.426674, intra 1.442986, pred 0.719186, acc 0.511628|use the attention agg context information
+use the attention agg context information
+valid loss 5.671824, con 2.205549, intra 2.022799, pred 1.443474, acc 0.490683
+  Epoch 01| use the attention agg context information
+train loss 2.686300, con 0.522100, intra 1.468300, pred 0.695900, acc 0.713178|use the attention agg context information
+use the attention agg context information
+valid loss 5.179340, con 1.831247, intra 1.906341, pred 1.441752, acc 0.534161
+  Epoch 02| use the attention agg context information
+train loss 2.438608, con 0.331901, intra 1.415141, pred 0.691567, acc 0.720930|use the attention agg context information
+use the attention agg context information
+valid loss 4.811813, con 1.547631, intra 1.826733, pred 1.437449, acc 0.534161
+  Epoch 03| use the attention agg context information
+train loss 2.299993, con 0.221395, intra 1.401773, pred 0.676824, acc 0.813953|use the attention agg context information
+use the attention agg context information
+valid loss 4.558473, con 1.372478, intra 1.752738, pred 1.433257, acc 0.540373
+  Epoch 04| use the attention agg context information
+train loss 2.374697, con 0.311281, intra 1.394047, pred 0.669369, acc 0.829457|use the attention agg context information
+use the attention agg context information
+valid loss 4.428906, con 1.291664, intra 1.707701, pred 1.429541, acc 0.540373
+  Epoch 05| use the attention agg context information
+train loss 2.366408, con 0.341123, intra 1.365908, pred 0.659376, acc 0.875969|use the attention agg context information
+use the attention agg context information
+valid loss 4.376136, con 1.272300, intra 1.677724, pred 1.426112, acc 0.540373
+  Epoch 06| use the attention agg context information
+train loss 2.307926, con 0.304959, intra 1.349026, pred 0.653941, acc 0.868217|use the attention agg context information
+use the attention agg context information
+valid loss 4.259857, con 1.184445, intra 1.651628, pred 1.423783, acc 0.540373
+  Epoch 07| use the attention agg context information
+train loss 2.108083, con 0.110469, intra 1.348433, pred 0.649181, acc 0.899225|use the attention agg context information
+use the attention agg context information
+valid loss 4.176367, con 1.135915, intra 1.619013, pred 1.421439, acc 0.565217
+  Epoch 08| use the attention agg context information
+train loss 2.078830, con 0.115675, intra 1.329815, pred 0.633340, acc 0.922481|use the attention agg context information
+use the attention agg context information
+valid loss 4.261134, con 1.213260, intra 1.628495, pred 1.419379, acc 0.577640
+  Epoch 09| use the attention agg context information
+train loss 1.971112, con 0.045397, intra 1.293068, pred 0.632648, acc 0.930233|use the attention agg context information
+use the attention agg context information
+valid loss 4.268384, con 1.220143, intra 1.633336, pred 1.414905, acc 0.565217
+  Epoch 10| use the attention agg context information
+train loss 2.099702, con 0.135508, intra 1.326056, pred 0.638137, acc 0.922481|use the attention agg context information
+use the attention agg context information
+valid loss 4.294925, con 1.263688, intra 1.618311, pred 1.412926, acc 0.571429
+  Epoch 11| use the attention agg context information
+train loss 2.003048, con 0.076454, intra 1.289734, pred 0.636859, acc 0.922481|use the attention agg context information
+use the attention agg context information
+valid loss 4.302109, con 1.277940, intra 1.612717, pred 1.411452, acc 0.577640
+  Epoch 12| use the attention agg context information
+train loss 2.033497, con 0.093303, intra 1.309374, pred 0.630821, acc 0.922481|use the attention agg context information
+use the attention agg context information
+valid loss 4.320913, con 1.302607, intra 1.608966, pred 1.409341, acc 0.577640
+  Epoch 13| use the attention agg context information
+train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.922481|use the attention agg context information
+use the attention agg context information
+valid loss 4.304964, con 1.283299, intra 1.611641, pred 1.410024, acc 0.577640
+  Epoch 14| use the attention agg context information
+train loss 2.170518, con 0.237704, intra 1.309049, pred 0.623765, acc 0.953488|use the attention agg context information
+use the attention agg context information
+valid loss 4.307700, con 1.275947, intra 1.623057, pred 1.408696, acc 0.583851
+  Epoch 15| use the attention agg context information
+train loss 2.062803, con 0.102133, intra 1.337577, pred 0.623093, acc 0.945736|use the attention agg context information
+use the attention agg context information
+valid loss 4.371387, con 1.320852, intra 1.642875, pred 1.407659, acc 0.590062
+  Epoch 16| use the attention agg context information
+train loss 2.181721, con 0.238196, intra 1.331063, pred 0.612463, acc 0.961240|use the attention agg context information
+use the attention agg context information
+valid loss 4.364620, con 1.296002, intra 1.661450, pred 1.407168, acc 0.583851
+  Epoch 17| use the attention agg context information
+train loss 2.065440, con 0.100646, intra 1.345566, pred 0.619228, acc 0.930233|use the attention agg context information
+use the attention agg context information
+valid loss 4.329445, con 1.260736, intra 1.662943, pred 1.405765, acc 0.577640
+  Epoch 18| use the attention agg context information
+train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.953488|use the attention agg context information
+use the attention agg context information
+valid loss 4.369650, con 1.292772, intra 1.671626, pred 1.405252, acc 0.590062
+  Epoch 19| use the attention agg context information
+train loss 2.019772, con 0.084090, intra 1.321511, pred 0.614171, acc 0.953488|use the attention agg context information
+use the attention agg context information
+valid loss 4.367919, con 1.293754, intra 1.671026, pred 1.403139, acc 0.583851
+  Epoch 20| use the attention agg context information
+train loss 2.120221, con 0.166121, intra 1.334567, pred 0.619532, acc 0.930233|use the attention agg context information
+use the attention agg context information
+valid loss 4.365269, con 1.279033, intra 1.684613, pred 1.401622, acc 0.577640
+  Epoch 21| use the attention agg context information
+train loss 2.140233, con 0.209268, intra 1.322900, pred 0.608065, acc 0.930233|use the attention agg context information
+use the attention agg context information
+valid loss 4.347286, con 1.253717, intra 1.693249, pred 1.400320, acc 0.583851
+  Epoch 22| use the attention agg context information
+train loss 2.177603, con 0.232043, intra 1.336713, pred 0.608847, acc 0.937984|use the attention agg context information
+use the attention agg context information
+valid loss 4.369370, con 1.274028, intra 1.695160, pred 1.400182, acc 0.571429
+  Epoch 23| use the attention agg context information
+train loss 2.132168, con 0.197123, intra 1.335557, pred 0.599488, acc 0.968992|use the attention agg context information
+use the attention agg context information
+valid loss 4.357200, con 1.265199, intra 1.692184, pred 1.399816, acc 0.577640
+  Epoch 24| use the attention agg context information
+train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.945736|use the attention agg context information
+use the attention agg context information
+valid loss 4.357962, con 1.265539, intra 1.692523, pred 1.399899, acc 0.559006
+  Epoch 25| use the attention agg context information
+train loss 2.041928, con 0.100304, intra 1.339969, pred 0.601655, acc 0.968992|use the attention agg context information
+use the attention agg context information
+valid loss 4.347169, con 1.252776, intra 1.694881, pred 1.399511, acc 0.577640
+  Epoch 26| use the attention agg context information
+train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.961240|use the attention agg context information
+use the attention agg context information
+valid loss 4.298491, con 1.204232, intra 1.693795, pred 1.400463, acc 0.571429
+  Epoch 27| use the attention agg context information
+train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.945736|use the attention agg context information
+use the attention agg context information
+valid loss 4.288781, con 1.200416, intra 1.688077, pred 1.400288, acc 0.577640
+  Epoch 28| use the attention agg context information
+train loss 2.169551, con 0.209392, intra 1.354286, pred 0.605872, acc 0.953488|use the attention agg context information
+use the attention agg context information
+valid loss 4.279956, con 1.184010, intra 1.694327, pred 1.401619, acc 0.583851
+  training stop in epoch 18.
+  the best model had been saved to  ./FinalModel_gossipcop_glm_origin_clu17_lClu0.2_lTri0.6_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse.pt
+===> construct multiple binary classifiers to detect fake news within each news cluster.
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+--- overall fake pre 0.045272 recal 0.484663 f1 0.082809 acc 0.600365|overall real pre 0.968109 recal 0.604839 f1 0.744526 acc 0.600365|mlp
+===> final test results: fake pre 0.0453 recall 0.4847 f1 0.0828 acc 0.6004.

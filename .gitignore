@@ -12,3 +12,16 @@ CSFND/*.pt
 
 # 忽略编译文件
 CSFND/__pycache__/
+/gossipcop_dataset/gossipcop_v3-1_style_based_fake_train.json
+/gossipcop_dataset/gossipcop_v3-1_style_based_fake_test.json
+/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_train.json
+/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_valid.json
+/gossipcop_dataset/gossipcop_v3-1_style_based_fake.json
+/gossipcop_dataset/top_img/
+/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length.json
+/gossipcop_dataset/data_process.ipynb
+/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_test.json
+/gossipcop_glm_origin/top_img/
+/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_train.json
+/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_test.json
+/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_valid.json

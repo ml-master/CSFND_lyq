@@ -6,8 +6,12 @@ from sklearn.metrics import accuracy_score
 def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, optimi, cls_cri, args, epoch, un_model):
     model.train()
     context_triplet_all_loss, intra_cluster_all_loss, predict_all_loss, train_all_loss = 0, 0, 0, 0
+    skl_acc_real = 0.0
+    skl_acc_fake = 0.0
     skl_acc = 0.0
     train_num = 1
+    train_real_num = 1
+    train_fake_num = 1
     un_model.eval()
 
     for step, train_d in enumerate(train_data):
@@ -37,28 +41,45 @@ def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, opt
             input_text, input_image, te_input_cluster_ids, im_input_cluster_ids, contextual_rep_t, contextual_rep_v)
 
         pre_labels = cls_emb.clone().detach()
+
         pre_labels[pre_labels > 0.5] = 1
         pre_labels[pre_labels <= 0.5] = 0
-        acc = accuracy_score(input_label.detach().cpu(), pre_labels.cpu())
+
+        input_cpu = input_label.detach().cpu()
+        pre_cpu = pre_labels.cpu()
+
+        real_index = input_cpu[:, 1] == 1
+        fake_index = input_cpu[:, 0] == 1
+
+        acc = accuracy_score(input_cpu, pre_cpu)
+        acc_real = accuracy_score(input_cpu[real_index], pre_cpu[real_index])
+        acc_fake = accuracy_score(input_cpu[fake_index], pre_cpu[fake_index])
+
         skl_acc += acc * input_label.size(0)
+        skl_acc_real += acc_real * real_index.size(0)
+        skl_acc_fake += acc_fake * fake_index.size(0)
+
         train_num += input_label.size(0)
+        train_real_num += real_index.size(0)
+        train_fake_num += fake_index.size(0)
 
         if modality == 'text':
-            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label, epoch)
+            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,
+                                                      epoch)
             intra_cluster_loss = cluster_intra_inter_distance_loss(gru_fused, te_input_cluster_ids)
         elif modality == 'image':
-            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, im_input_cluster_ids, input_label, epoch)
+            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, im_input_cluster_ids, input_label,
+                                                      epoch)
             intra_cluster_loss = cluster_intra_inter_distance_loss(gru_fused, im_input_cluster_ids)
         predict_loss = cls_cri(cls_emb, input_label.float())
         if context_triplet_loss is None:
             continue
         if args.unspr:
             train_loss = context_triplet_loss * args.lambda_triplet_class + \
-                     intra_cluster_loss * args.lambda_cluster + \
-                     predict_loss
-        else:# 退化版本，不过不使用无监督学习，所有的使用了无监督学习的标签都不再使用。
+                         intra_cluster_loss * args.lambda_cluster + \
+                         predict_loss
+        else:  # 退化版本，不过不使用无监督学习，所有的使用了无监督学习的标签都不再使用。
             train_loss = predict_loss
-                             
 
         optimi.zero_grad()
         train_loss.backward()
@@ -68,21 +89,33 @@ def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, opt
         context_triplet_all_loss += context_triplet_loss.item() * args.lambda_triplet_class
         intra_cluster_all_loss += intra_cluster_loss.item() * args.lambda_cluster
         predict_all_loss += predict_loss.item()
-        train_all_loss += train_loss.item() 
+        train_all_loss += train_loss.item()
 
-    print('train loss {:<5f}, con {:<5f}, intra {:<5f}, pred {:<5f}, acc {:<5f}'.format(
-        train_all_loss, context_triplet_all_loss, intra_cluster_all_loss, predict_all_loss, skl_acc/train_num
-    ), end='|')
-    
+    print(
+        'train loss {:<5f}, con {:<5f}, intra {:<5f}, pred {:<5f}, acc {:<5f}, acc_real {:<5f}, acc_fake {:<5f}'.format(
+            train_all_loss, context_triplet_all_loss, intra_cluster_all_loss, predict_all_loss, skl_acc / train_num,
+                                                                                                skl_acc_real / train_real_num,
+                                                                                                skl_acc_fake / train_fake_num
+        ), end='|')
 
     return train_all_loss / train_num, skl_acc / train_num
 
 
 def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_cri, args, epoch, un_model):
+    def get_real_index(labels):
+        return
+
+    def get_fake_index(labels):
+        return [i for i in range(len(labels)) if labels[i] == 0]
+
     model.eval()
     intra_cluster_all_loss, context_triplet_all_loss, predict_all_loss, test_all_loss = 0, 0, 0, 0
+    skl_acc_real = 0
+    skl_acc_fake = 0
     skl_acc = 0
     test_num = 1
+    test_real_num = 1
+    test_fake_num = 1
     un_model.eval()
 
     for step, test_da in enumerate(test_data):
@@ -104,15 +137,32 @@ def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_c
         pre_labels = cls_emb.clone().detach()
         pre_labels[pre_labels > 0.5] = 1
         pre_labels[pre_labels <= 0.5] = 0
-        acc = accuracy_score(input_label.detach().cpu(), pre_labels.cpu())
+
+        input_cpu = input_label.detach().cpu()
+        pre_cpu = pre_labels.cpu()
+
+        real_index = input_cpu[:, 1] == 1
+        fake_index = input_cpu[:, 0] == 1
+
+        acc = accuracy_score(input_cpu, pre_cpu)
+        acc_real = accuracy_score(input_cpu[real_index], pre_cpu[real_index])
+        acc_fake = accuracy_score(input_cpu[fake_index], pre_cpu[fake_index])
+
         skl_acc += acc * input_label.size(0)
+        skl_acc_real += acc_real * real_index.size(0)
+        skl_acc_fake += acc_fake * fake_index.size(0)
+
         test_num += input_label.size(0)
+        test_real_num += real_index.size(0)
+        test_fake_num += fake_index.size(0)
 
         if modality == 'text':
-            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label, epoch)
+            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,
+                                                      epoch)
             intra_cluster_loss = cluster_intra_inter_distance_loss(gru_fused, te_input_cluster_ids)
         elif modality == 'image':
-            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, im_input_cluster_ids, input_label, epoch)
+            context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, im_input_cluster_ids, input_label,
+                                                      epoch)
             intra_cluster_loss = cluster_intra_inter_distance_loss(gru_fused, im_input_cluster_ids)
         predict_loss = cls_cri(cls_emb, input_label.float())
 
@@ -120,18 +170,21 @@ def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_c
             continue
 
         test_loss = context_triplet_loss * args.lambda_triplet_class + \
-                     intra_cluster_loss * args.lambda_cluster + \
-                     predict_loss
+                    intra_cluster_loss * args.lambda_cluster + \
+                    predict_loss
 
         context_triplet_all_loss += context_triplet_loss * args.lambda_triplet_class
         intra_cluster_all_loss += intra_cluster_loss * args.lambda_cluster
         predict_all_loss += predict_loss
         test_all_loss += test_loss
 
-    print('valid loss {:<5f}, con {:<5f}, intra {:<5f}, pred {:<5f}, acc {:<5f}'.format(
-        test_all_loss, context_triplet_all_loss, intra_cluster_all_loss, predict_all_loss, skl_acc / test_num
-    ))
-    return skl_acc/test_num
+    print(
+        'valid loss {:<5f}, con {:<5f}, intra {:<5f}, pred {:<5f}, acc {:<5f}, acc_real {:<5f}, acc_fake {:<5f}'.format(
+            test_all_loss, context_triplet_all_loss, intra_cluster_all_loss, predict_all_loss, skl_acc / test_num,
+                                                                                               skl_acc_real / test_real_num,
+                                                                                               skl_acc_fake / test_fake_num
+        ))
+    return skl_acc / test_num
 
 
 def unsuper_learning(all_loader, model, ti_ids, te_clu_ids, im_clu_ids, args, options, save_model_path):
@@ -149,14 +202,15 @@ def unsuper_learning(all_loader, model, ti_ids, te_clu_ids, im_clu_ids, args, op
         text_loss, image_loss, loss_item = 0.0, 0.0, 0.0
 
         for batch_data in all_loader:
-            input_text, input_image, input_label, input_ti_id, _ = batch_data # 从数据集中拿数据 
+            input_text, input_image, input_label, input_ti_id, _ = batch_data  # 从数据集中拿数据
             if len(input_label) < args.batch_size:
                 continue
 
             te_input_cluster_ids = np.array([])
             im_input_cluster_ids = np.array([])
-            for i in input_ti_id: # input_ti_id 是ID信息 没有经过更改 
-                te_input_cluster_ids = np.append(te_input_cluster_ids, te_clu_ids[np.where(ti_ids == i)]) # 使用np.where 筛选出符合条件的索引。 # 找到当前的样本是属于哪个cluster
+            for i in input_ti_id:  # input_ti_id 是ID信息 没有经过更改
+                te_input_cluster_ids = np.append(te_input_cluster_ids, te_clu_ids[
+                    np.where(ti_ids == i)])  # 使用np.where 筛选出符合条件的索引。 # 找到当前的样本是属于哪个cluster
                 im_input_cluster_ids = np.append(im_input_cluster_ids, im_clu_ids[np.where(ti_ids == i)])
             te_input_cluster_ids = torch.tensor(te_input_cluster_ids).cuda()
             im_input_cluster_ids = torch.tensor(im_input_cluster_ids).cuda()
@@ -208,7 +262,7 @@ def unsuper_learning(all_loader, model, ti_ids, te_clu_ids, im_clu_ids, args, op
             counter += 1
 
         if counter >= 10:
-            print('early stop with patience 10 at epoch ', epoch-10)
+            print('early stop with patience 10 at epoch ', epoch - 10)
             return
 
     print('      not early stop, finish 100 epoch.')

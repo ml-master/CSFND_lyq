@@ -7,6 +7,9 @@ from transformers import BertTokenizer
 
 class PreDataset(data.Dataset):
     def __init__(self, dataset, data_type, options):
+
+        if dataset != 'gossipcop_glm_origin' and data_type == 'valid':
+            data_type = 'test'
         self.data_type = data_type
         print('===> process {} data...'.format(dataset))
         if not os.path.exists('./data_files/{}'.format(dataset, data_type)):
@@ -59,6 +62,7 @@ def load_data(dataset, batch_size, options):
 
     train_data = PreDataset(dataset, 'train', options)
     test_data = PreDataset(dataset, 'test', options)
+    valid_data = PreDataset(dataset, 'valid', options)
 
     train_loader = torch.utils.data.DataLoader(dataset=train_data,
                                                batch_size=batch_size,
@@ -66,8 +70,11 @@ def load_data(dataset, batch_size, options):
     test_loader = torch.utils.data.DataLoader(dataset=test_data,
                                                batch_size=batch_size,
                                                shuffle=False)
+    valid_loader = torch.utils.data.DataLoader(dataset=valid_data,
+                                               batch_size=batch_size,
+                                               shuffle=False)
 
-    return train_loader, test_loader, test_loader
+    return train_loader, valid_loader, test_loader
 
 
 

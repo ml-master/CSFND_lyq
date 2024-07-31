@@ -6,3 +6,4 @@ gossipcop_glm_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSFalse_AGGTrue_
 gossipcop_glm_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGFalse_AVGFalse_mlp     |0.9213 & 0.8375 & 0.8774 & 0.9509 & 0.9579 & 0.9810 & 0.9693 & 0.9509
 ========= CSFND PAPER Version==================
 gossipcop_glm_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.9219 & 0.8221 & 0.8691 & 0.9481 & 0.9541 & 0.9815 & 0.9676 & 0.9481
+gossipcop_glm_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |1.0000 & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 0.0000 & 0.0000 & 1.0000
