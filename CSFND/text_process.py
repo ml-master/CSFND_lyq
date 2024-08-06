@@ -194,12 +194,8 @@ def get_gossipcop_matrix(data_type, is_generated):
     text_image_ids = []
     img_dir = "top_img"
     corpus_dir = '../gossipcop_dataset'
-    if data_type == "train":
-        df = pd.read_json('{}/gossipcop_v3-1_style_based_fake_{}.json'.format(corpus_dir, data_type))
-    elif data_type == 'test':
-        df = pd.read_json('{}/gossipcop_v3-1_style_based_fake_{}.json'.format(corpus_dir, data_type))
-    else:
-        raise ValueError('data type must be train or test!')
+    assert data_type=='train' or data_type=='test' or data_type=='valid'
+    df = pd.read_json('{}/gossipcop_v3-1_style_based_fake_{}.json'.format(corpus_dir, data_type))
     if is_generated:
         text_lists = df["generated_text"].map(lambda x: text_filter_english(x)).to_list()
     else:
@@ -222,7 +218,7 @@ def get_gossipcop_matrix_origin(data_type):
     label_dict = {'fake': [0, 1], 'real': [1, 0]}
     text_image_ids = []
     img_dir = "top_img"
-    corpus_dir = '../gossipcop_dataset'
+    corpus_dir = '../gossipcop_glm_origin'
     assert data_type == 'train' or data_type == 'test' or data_type == 'valid'
     df = pd.read_json('{}/gossipcop_v3_keep_data_in_proper_length_{}.json'.format(corpus_dir, data_type))
 

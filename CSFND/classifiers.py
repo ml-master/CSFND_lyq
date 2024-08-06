@@ -8,13 +8,39 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 
+def my_confusion(y_true, y_pred):
+    """
+    计算混淆矩阵的四个值：真负类（TN）、假正类（FP）、假负类（FN）、真正类（TP）。
+
+    参数:
+    y_true (np.array): 真实标签
+    y_pred (np.array): 预测标签
+
+    返回:
+    tuple: (tn, fp, fn, tp)
+        - tn: 真负类
+        - fp: 假正类
+        - fn: 假负类
+        - tp: 真正类
+    """
+    tn, fp, fn, tp = 0, 0, 0, 0
+    real_mask = y_true == 1
+    fake_mask = y_true == 0
+
+    tn = np.sum(y_pred[fake_mask] == 0)
+    fp = np.sum(y_pred[fake_mask] == 1)
+    fn = np.sum(y_pred[real_mask] == 0)
+    tp = np.sum(y_pred[real_mask] == 1)
+
+    return tn, fp, fn, tp
+
+
 def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear', verbose=False):
     train_hidden_embs, train_label_embs, train_cls_embs, train_cluster_labels = train_embs
     test_hidden_embs, test_label_embs, test_cls_embs, test_cluster_labels = test_embs
     input_dim = train_hidden_embs.shape[1]
 
     tn_list, tp_list, fn_list, fp_list = [], [], [], []
-    real_tn_list, real_tp_list, real_fn_list, real_fp_list = [], [], [], []
 
     if not args.multicls:
         print("use single classifier! ")
@@ -29,7 +55,8 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
         te_label = y_true[:, 0]
 
         # 1: positive => real pre, recall, f1
-        tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
+        # tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
+        tn, fp, fn, tp = my_confusion(te_label, y_pre)
 
         # pres, recalls, f1s, supports = precision_recall_fscore_support(
         #     te_label, y_pre, labels=[0, 1], average=None)
@@ -98,7 +125,10 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
                         0, 0, 0,
                         np.sum(te_label == 0), np.sum(te_label == 1), len(te_label)), end='\n')
 
-            tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
+
+
+            # tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
+            tn, fp, fn, tp = my_confusion(te_label, y_pre)
             # pres, recalls, f1s, supports = precision_recall_fscore_support(
             #     te_label, y_pre, labels=[0, 1], average=None)
             if verbose:
@@ -299,3 +329,5 @@ class PreData(data.Dataset):
             one_datas = one_datas.cuda()
             one_labels = one_labels.cuda()
         return one_datas, one_labels
+
+

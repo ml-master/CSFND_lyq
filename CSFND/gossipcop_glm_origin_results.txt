@@ -6,3 +6,32 @@ gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AG
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.5609 & 0.9716 & 0.0483 
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7148 & 0.9646 & 0.0422 
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.5609 & 0.9716 & 0.0483 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.4791 & 0.9722 & 0.0455 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6656 & 0.6421 & 0.6985 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6380 & 0.6108 & 0.6829 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6411 & 0.6533 & 0.6307 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6503 & 0.6172 & 0.7094 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6319 & 0.6000 & 0.6937 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6104 & 0.5865 & 0.6525
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6350 & 0.6146 & 0.6642
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6472 & 0.6188 & 0.6935 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=3
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6779 & 0.6408 & 0.7417 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=5
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6472 & 0.6091 & 0.7264 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=6
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6933 & 0.7006 & 0.6864 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=7
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6994 & 0.6720 & 0.7372 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=9 & wd=1e-4
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6380 & 0.6178 & 0.6667 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=10
+
+
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6687 & 0.6151 & 0.8161 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=9 & wd=1e-3
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6687 & 0.6211 & 0.7778 # batch_size = 32 & lr = 0.0001 & dropout = 0.5 & es-patience=9 & wd=1e-5
+
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6687 & 0.6471 & 0.6978 # batch_size = 16 & lr = 0.0001 & dropout = 0.5 & es-patience=9 & wd=1e-4
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6288 & 0.6050 & 0.6667 # batch_size = 16 & lr = 0.0005 & dropout = 0.5 & es-patience=9 & wd=1e-4
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6472 & 0.6200 & 0.6905 # batch_size = 16 & lr = 0.0003 & dropout = 0.5 & es-patience=9 & wd=1e-4
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6442 & 0.6442 & 0.6442 # batch_size = 16 & lr = 0.00005 & dropout = 0.5 & es-patience=9 & wd=1e-4
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7038 & 0.9710 & 0.0570 # batch_size = 16 & lr = 0.00005 & dropout = 0.5 & es-patience=9 & wd=1e-4 & test=overall
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7566 & 0.9685 & 0.0560 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7566 & 0.7723 & 0.3497 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7276 & 0.9681 & 0.0522 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7566 & 0.9685 & 0.0560 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.7566 & 0.9685 & 0.0560 

@@ -51,17 +51,20 @@ def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, opt
         real_index = input_cpu[:, 1] == 1
         fake_index = input_cpu[:, 0] == 1
 
-        acc = accuracy_score(input_cpu, pre_cpu)
-        acc_real = accuracy_score(input_cpu[real_index], pre_cpu[real_index])
-        acc_fake = accuracy_score(input_cpu[fake_index], pre_cpu[fake_index])
+        input_labels_flat = input_cpu.argmax(dim=1)
+        pre_labels_flat = pre_cpu.argmax(dim=1)
 
-        skl_acc += acc * input_label.size(0)
-        skl_acc_real += acc_real * real_index.size(0)
-        skl_acc_fake += acc_fake * fake_index.size(0)
+        acc = accuracy_score(input_labels_flat, pre_labels_flat)
+        acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
+        acc_fake = accuracy_score(input_labels_flat[fake_index], pre_labels_flat[fake_index])
+
+        skl_acc += (pre_labels_flat == input_labels_flat).sum().item()
+        skl_acc_real += (pre_labels_flat[real_index] == input_labels_flat[real_index]).sum().item()
+        skl_acc_fake += (pre_labels_flat[fake_index] == input_labels_flat[fake_index]).sum().item()
 
         train_num += input_label.size(0)
-        train_real_num += real_index.size(0)
-        train_fake_num += fake_index.size(0)
+        train_real_num += real_index.sum().item()
+        train_fake_num += fake_index.sum().item()
 
         if modality == 'text':
             context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,
@@ -144,17 +147,20 @@ def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_c
         real_index = input_cpu[:, 1] == 1
         fake_index = input_cpu[:, 0] == 1
 
-        acc = accuracy_score(input_cpu, pre_cpu)
-        acc_real = accuracy_score(input_cpu[real_index], pre_cpu[real_index])
-        acc_fake = accuracy_score(input_cpu[fake_index], pre_cpu[fake_index])
+        input_labels_flat = input_cpu[:, 1]
+        pre_labels_flat = pre_cpu[:, 1]
 
-        skl_acc += acc * input_label.size(0)
-        skl_acc_real += acc_real * real_index.size(0)
-        skl_acc_fake += acc_fake * fake_index.size(0)
+        acc = accuracy_score(input_labels_flat, pre_labels_flat)
+        acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
+        acc_fake = accuracy_score(input_labels_flat[fake_index], pre_labels_flat[fake_index])
+
+        skl_acc += (pre_labels_flat == input_labels_flat).sum().item()
+        skl_acc_real += (pre_labels_flat[real_index] == input_labels_flat[real_index]).sum().item()
+        skl_acc_fake += (pre_labels_flat[fake_index] == input_labels_flat[fake_index]).sum().item()
 
         test_num += input_label.size(0)
-        test_real_num += real_index.size(0)
-        test_fake_num += fake_index.size(0)
+        test_real_num += real_index.sum().item()
+        test_fake_num += fake_index.sum().item()
 
         if modality == 'text':
             context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,

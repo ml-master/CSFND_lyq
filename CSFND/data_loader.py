@@ -8,8 +8,6 @@ from transformers import BertTokenizer
 class PreDataset(data.Dataset):
     def __init__(self, dataset, data_type, options):
 
-        if dataset != 'gossipcop_glm_origin' and data_type == 'valid':
-            data_type = 'test'
         self.data_type = data_type
         print('===> process {} data...'.format(dataset))
         if not os.path.exists('./data_files/{}'.format(dataset, data_type)):
