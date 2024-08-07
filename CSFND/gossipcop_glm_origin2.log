@@ -1,112 +1,637 @@
-/home/myub2004/anaconda3/bin/conda run -n csfnd --no-capture-output python /mnt/c/Users/wdnmd/PycharmProjects/CSFND_yanjie/CSFND/run.py --dataset=gossipcop_glm_origin --inference=False
+/home/myub2004/anaconda3/bin/conda run -n csfnd --no-capture-output python /mnt/c/Users/wdnmd/PycharmProjects/CSFND_yanjie/CSFND/run.py --dataset=gossipcop_glm_origin --batch-size=16 --inference=False --es-patience=9 --wd=1e-4
 the ab hyperparameters UNSPR:True_MultiCLS:True_AGG:True_AVG:False
-===> start training at:  0805-145355
+===> start training at:  0807-130739
 ===> process gossipcop_glm_origin data...
+100%|██████████| 160/160 [00:03<00:00, 48.01it/s]
     load gossipcop_glm_origin 160   train data from files, include 80 fake and 80 real news.
 ===> process gossipcop_glm_origin data...
+ 24%|██▎       | 1033/4379 [00:28<01:54, 29.18it/s]/home/myub2004/anaconda3/envs/csfnd/lib/python3.7/site-packages/PIL/Image.py:997: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  "Palette images with Transparency expressed in bytes should be "
+100%|██████████| 4379/4379 [01:59<00:00, 36.61it/s]
     load gossipcop_glm_origin 4379  test data from files, include 163 fake and 4216 real news.
 ===> process gossipcop_glm_origin data...
+100%|██████████| 160/160 [00:02<00:00, 54.25it/s]
     load gossipcop_glm_origin 160   valid data from files, include 80 fake and 80 real news.
 ===> cluster text and image items and get the cluster pseudo-label.
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.weight', 'cls.predictions.bias', 'cls.seq_relationship.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.bias', 'cls.predictions.transform.dense.weight', 'cls.seq_relationship.bias']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
 ===> perform the Unsupervised context learning to get the context features.
-Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.dense.weight', 'cls.seq_relationship.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.bias', 'cls.predictions.transform.dense.bias', 'cls.seq_relationship.bias']
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.weight', 'cls.predictions.bias', 'cls.seq_relationship.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.bias', 'cls.predictions.transform.dense.weight', 'cls.seq_relationship.bias']
 - This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
 - This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-     load unsupervised model that trained success.
+     epoch 0 | loss 4.889556, text 2.435914 image 2.453641 |.
+     epoch 1 | loss 4.915202, text 2.370639 image 2.544563 |.
+     epoch 2 | loss 4.869770, text 2.331132 image 2.538638 |.
+     epoch 3 | loss 4.795561, text 2.349010 image 2.446551 |.
+     epoch 4 | loss 4.883062, text 2.334789 image 2.548273 |.
+     epoch 5 | loss 4.789406, text 2.454176 image 2.335230 |.
+     epoch 6 | loss 4.923702, text 2.451053 image 2.472648 |.
+     epoch 7 | loss 4.738838, text 2.208678 image 2.530160 |.
+     epoch 8 | loss 4.494958, text 2.132262 image 2.362696 |.
+     epoch 9 | loss 4.806967, text 2.252455 image 2.554512 |.
+     epoch 10| loss 14.837432, text 6.746508 image 8.090923 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 11| loss 12.281616, text 5.042917 image 7.238699 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 12| loss 12.247897, text 4.465405 image 7.782492 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 13| loss 10.752601, text 4.656972 image 6.095629 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 14| loss 11.176983, text 5.035812 image 6.141171 |a larger loss, continue.
+     epoch 15| loss 9.917554, text 3.995810 image 5.921744 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 16| loss 8.761528, text 4.697448 image 4.064080 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 17| loss 9.167199, text 3.726388 image 5.440811 |a larger loss, continue.
+     epoch 18| loss 9.388562, text 4.073774 image 5.314788 |a larger loss, continue.
+     epoch 19| loss 7.098491, text 3.249247 image 3.849244 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 20| loss 7.590303, text 3.448686 image 4.141618 |a larger loss, continue.
+     epoch 21| loss 7.668310, text 3.094881 image 4.573429 |a larger loss, continue.
+     epoch 22| loss 9.516528, text 3.912509 image 5.604019 |a larger loss, continue.
+     epoch 23| loss 7.266186, text 3.410841 image 3.855345 |a larger loss, continue.
+     epoch 24| loss 6.524216, text 2.884033 image 3.640183 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 25| loss 7.518270, text 2.887357 image 4.630912 |a larger loss, continue.
+     epoch 26| loss 6.728646, text 2.969446 image 3.759200 |a larger loss, continue.
+     epoch 27| loss 5.653934, text 2.910198 image 2.743736 |a lower loss, save model to: ./gossipcop_glm_origin_bs16_Clu17_unsupervised.pt
+     epoch 28| loss 8.331018, text 4.143488 image 4.187530 |a larger loss, continue.
+     epoch 29| loss 9.598850, text 4.848992 image 4.749858 |a larger loss, continue.
+     epoch 30| loss 7.673670, text 3.478347 image 4.195323 |a larger loss, continue.
+     epoch 31| loss 6.004665, text 2.437128 image 3.567537 |a larger loss, continue.
+     epoch 32| loss 6.754801, text 3.593825 image 3.160975 |a larger loss, continue.
+     epoch 33| loss 7.651758, text 2.612899 image 5.038858 |a larger loss, continue.
+     epoch 34| loss 6.577967, text 3.460947 image 3.117020 |a larger loss, continue.
+     epoch 35| loss 8.889651, text 3.913572 image 4.976079 |a larger loss, continue.
+     epoch 36| loss 8.148534, text 3.281014 image 4.867520 |a larger loss, continue.
+     epoch 37| loss 6.421778, text 2.527783 image 3.893995 |a larger loss, continue.
+early stop with patience 10 at epoch  27
 ===> training the main model.
-Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.dense.weight', 'cls.seq_relationship.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.bias', 'cls.predictions.transform.dense.bias', 'cls.seq_relationship.bias']
+Some weights of the model checkpoint at ./model/bert_base_uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.weight', 'cls.predictions.bias', 'cls.seq_relationship.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.bias', 'cls.predictions.transform.dense.weight', 'cls.seq_relationship.bias']
 - This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
 - This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-    => select the primary modality: image
+    => select the primary modality: text
   Epoch 00| use the attention agg context information
-train loss 2.611604, con 0.436714, intra 1.448980, pred 0.725910, acc 0.480620, acc_real 0.536790, acc_fake 0.429481|use the attention agg context information
 use the attention agg context information
-valid loss 6.249500, con 2.598241, intra 2.203482, pred 1.447777, acc 0.503106, acc_real 0.771878, acc_fake 0.237477
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 16.331654, con 3.446012, intra 6.386950, pred 6.498692, acc 0.503106, acc_real 0.370370, acc_fake 0.629630|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 16.820044, con 4.790047, intra 5.516256, pred 6.513742, acc 0.496894, acc_real 0.222222, acc_fake 0.765432
   Epoch 01| use the attention agg context information
-train loss 2.744355, con 0.574127, intra 1.459762, pred 0.710466, acc 0.612403, acc_real 0.708749, acc_fake 0.519022|use the attention agg context information
 use the attention agg context information
-valid loss 5.670765, con 2.148102, intra 2.074798, pred 1.447865, acc 0.509317, acc_real 0.799305, acc_fake 0.223280
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 11.475308, con 2.739765, intra 4.541768, pred 4.193776, acc 0.664596, acc_real 0.555556, acc_fake 0.765432|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 16.193378, con 4.144266, intra 5.506302, pred 6.542810, acc 0.484472, acc_real 0.185185, acc_fake 0.777778
   Epoch 02| use the attention agg context information
-train loss 2.406838, con 0.328094, intra 1.380377, pred 0.698368, acc 0.697674, acc_real 0.744186, acc_fake 0.651163|use the attention agg context information
 use the attention agg context information
-valid loss 5.197462, con 1.793761, intra 1.959553, pred 1.444148, acc 0.521739, acc_real 0.872682, acc_fake 0.172945
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 9.814914, con 1.455622, intra 4.149007, pred 4.210285, acc 0.633540, acc_real 0.506173, acc_fake 0.753086|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 16.058672, con 3.952627, intra 5.562704, pred 6.543339, acc 0.478261, acc_real 0.234568, acc_fake 0.716049
   Epoch 03| use the attention agg context information
-train loss 2.340844, con 0.281933, intra 1.371480, pred 0.687431, acc 0.775194, acc_real 0.859948, acc_fake 0.700410|use the attention agg context information
 use the attention agg context information
-valid loss 4.727555, con 1.460232, intra 1.829228, pred 1.438094, acc 0.534161, acc_real 0.894766, acc_fake 0.170794
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 11.591594, con 2.812170, intra 4.546478, pred 4.232946, acc 0.627329, acc_real 0.530864, acc_fake 0.716049|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 16.096046, con 4.025033, intra 5.534293, pred 6.536719, acc 0.478261, acc_real 0.246914, acc_fake 0.703704
   Epoch 04| use the attention agg context information
-train loss 2.247360, con 0.238715, intra 1.328694, pred 0.679951, acc 0.806202, acc_real 0.864216, acc_fake 0.751703|use the attention agg context information
 use the attention agg context information
-valid loss 4.368183, con 1.223028, intra 1.710307, pred 1.434848, acc 0.509317, acc_real 0.894766, acc_fake 0.120459
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 13.712229, con 3.234668, intra 5.611027, pred 4.866534, acc 0.708075, acc_real 0.580247, acc_fake 0.827160|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.943397, con 3.875453, intra 5.545056, pred 6.522888, acc 0.472050, acc_real 0.234568, acc_fake 0.703704
   Epoch 05| use the attention agg context information
-train loss 2.234901, con 0.229929, intra 1.339235, pred 0.665737, acc 0.821705, acc_real 0.821705, acc_fake 0.821705|use the attention agg context information
 use the attention agg context information
-valid loss 4.182261, con 1.110059, intra 1.638369, pred 1.433833, acc 0.515528, acc_real 0.931454, acc_fake 0.096367
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 14.713555, con 3.276288, intra 5.812110, pred 5.625156, acc 0.677019, acc_real 0.580247, acc_fake 0.765432|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.769417, con 3.729706, intra 5.515234, pred 6.524477, acc 0.478261, acc_real 0.234568, acc_fake 0.716049
   Epoch 06| use the attention agg context information
-train loss 2.161778, con 0.158236, intra 1.342216, pred 0.661327, acc 0.837209, acc_real 0.871976, acc_fake 0.800200|use the attention agg context information
 use the attention agg context information
-valid loss 4.057505, con 1.036812, intra 1.587289, pred 1.433403, acc 0.509317, acc_real 0.944277, acc_fake 0.072276
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 12.247159, con 3.193187, intra 4.915697, pred 4.138275, acc 0.732919, acc_real 0.666667, acc_fake 0.790123|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.902897, con 3.859385, intra 5.522126, pred 6.521387, acc 0.465839, acc_real 0.222222, acc_fake 0.703704
   Epoch 07| use the attention agg context information
-train loss 2.205528, con 0.218056, intra 1.324316, pred 0.663156, acc 0.837209, acc_real 0.913498, acc_fake 0.763268|use the attention agg context information
 use the attention agg context information
-valid loss 4.034061, con 1.047398, intra 1.555432, pred 1.431232, acc 0.527950, acc_real 0.944277, acc_fake 0.110564
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 7.623184, con 1.327022, intra 3.565138, pred 2.731024, acc 0.732919, acc_real 0.641975, acc_fake 0.814815|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.823722, con 3.841969, intra 5.461814, pred 6.519938, acc 0.465839, acc_real 0.234568, acc_fake 0.691358
   Epoch 08| use the attention agg context information
-train loss 2.067990, con 0.130602, intra 1.281463, pred 0.655924, acc 0.868217, acc_real 0.873771, acc_fake 0.862117|use the attention agg context information
 use the attention agg context information
-valid loss 4.047912, con 1.073380, intra 1.544932, pred 1.429600, acc 0.521739, acc_real 0.896547, acc_fake 0.148853
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 17.921399, con 3.937969, intra 7.786456, pred 6.196973, acc 0.695652, acc_real 0.617284, acc_fake 0.765432|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.538132, con 3.535861, intra 5.502342, pred 6.499928, acc 0.509317, acc_real 0.395062, acc_fake 0.617284
   Epoch 09| use the attention agg context information
-train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.937984, acc_real 0.943449, acc_fake 0.933009|use the attention agg context information
 use the attention agg context information
-valid loss 3.996424, con 1.017094, intra 1.550417, pred 1.428912, acc 0.552795, acc_real 0.896547, acc_fake 0.209083
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 10.727059, con 2.254742, intra 4.414620, pred 4.057696, acc 0.807453, acc_real 0.765432, acc_fake 0.839506|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.381421, con 3.401274, intra 5.485727, pred 6.494420, acc 0.527950, acc_real 0.481481, acc_fake 0.567901
   Epoch 10| use the attention agg context information
-train loss 2.043173, con 0.097942, intra 1.296428, pred 0.648804, acc 0.899225, acc_real 0.903390, acc_fake 0.894650|use the attention agg context information
 use the attention agg context information
-valid loss 4.020775, con 1.036857, intra 1.554598, pred 1.429320, acc 0.552795, acc_real 0.911151, acc_fake 0.197037
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 6.660331, con 1.102823, intra 2.836960, pred 2.720548, acc 0.745342, acc_real 0.753086, acc_fake 0.728395|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.362752, con 3.392835, intra 5.484135, pred 6.485782, acc 0.540373, acc_real 0.506173, acc_fake 0.567901
   Epoch 11| use the attention agg context information
-train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.922481, acc_real 0.918200, acc_fake 0.927183|use the attention agg context information
 use the attention agg context information
-valid loss 4.015375, con 1.024068, intra 1.562507, pred 1.428800, acc 0.559006, acc_real 0.887286, acc_fake 0.233175
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 5.594433, con 1.311404, intra 2.295715, pred 1.987314, acc 0.788820, acc_real 0.802469, acc_fake 0.765432|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 14.716138, con 2.733175, intra 5.494106, pred 6.488857, acc 0.540373, acc_real 0.481481, acc_fake 0.592593
   Epoch 12| use the attention agg context information
-train loss 1.974994, con 0.026743, intra 1.297798, pred 0.650453, acc 0.937984, acc_real 0.931187, acc_fake 0.944998|use the attention agg context information
 use the attention agg context information
-valid loss 4.068333, con 1.071012, intra 1.568890, pred 1.428430, acc 0.552795, acc_real 0.887286, acc_fake 0.223280
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 3.688388, con 0.563270, intra 1.769197, pred 1.355921, acc 0.813665, acc_real 0.790123, acc_fake 0.827160|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.101964, con 3.141387, intra 5.466020, pred 6.494557, acc 0.515528, acc_real 0.432099, acc_fake 0.592593
   Epoch 13| use the attention agg context information
-train loss 2.034449, con 0.118145, intra 1.270453, pred 0.645851, acc 0.922481, acc_real 0.931187, acc_fake 0.913498|use the attention agg context information
 use the attention agg context information
-valid loss 4.170930, con 1.161359, intra 1.582681, pred 1.426890, acc 0.552795, acc_real 0.900109, acc_fake 0.211234
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 8.760147, con 1.626715, intra 3.814710, pred 3.318721, acc 0.782609, acc_real 0.753086, acc_fake 0.802469|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.045437, con 3.083972, intra 5.464678, pred 6.496788, acc 0.552795, acc_real 0.456790, acc_fake 0.641975
   Epoch 14| use the attention agg context information
-train loss 2.258880, con 0.311502, intra 1.305245, pred 0.642133, acc 0.945736, acc_real 0.932112, acc_fake 0.960240|use the attention agg context information
 use the attention agg context information
-valid loss 4.347980, con 1.296658, intra 1.626964, pred 1.424359, acc 0.534161, acc_real 0.896547, acc_fake 0.175096
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 7.316874, con 1.370712, intra 3.252513, pred 2.693650, acc 0.807453, acc_real 0.777778, acc_fake 0.827160|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.237155, con 3.308019, intra 5.437428, pred 6.491708, acc 0.552795, acc_real 0.419753, acc_fake 0.679012
   Epoch 15| use the attention agg context information
-train loss 2.112221, con 0.178547, intra 1.290504, pred 0.643170, acc 0.922481, acc_real 0.960240, acc_fake 0.887010|use the attention agg context information
 use the attention agg context information
-valid loss 4.425477, con 1.346460, intra 1.655781, pred 1.423236, acc 0.534161, acc_real 0.909370, acc_fake 0.163050
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 9.567610, con 2.171104, intra 4.012694, pred 3.383812, acc 0.807453, acc_real 0.790123, acc_fake 0.814815|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.131640, con 3.193345, intra 5.448793, pred 6.489501, acc 0.565217, acc_real 0.456790, acc_fake 0.666667
   Epoch 16| use the attention agg context information
-train loss 1.987035, con 0.020205, intra 1.329105, pred 0.637725, acc 0.937984, acc_real 0.944998, acc_fake 0.931187|use the attention agg context information
 use the attention agg context information
-valid loss 4.502847, con 1.386993, intra 1.692352, pred 1.423501, acc 0.552795, acc_real 0.935016, acc_fake 0.175096
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 7.397765, con 1.192610, intra 3.508006, pred 2.697149, acc 0.844720, acc_real 0.839506, acc_fake 0.839506|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.106607, con 3.175945, intra 5.450694, pred 6.479967, acc 0.565217, acc_real 0.469136, acc_fake 0.654321
   Epoch 17| use the attention agg context information
-train loss 1.957764, con 0.026360, intra 1.293616, pred 0.637789, acc 0.914729, acc_real 0.888580, acc_fake 0.943449|use the attention agg context information
 use the attention agg context information
-valid loss 4.617079, con 1.487525, intra 1.706240, pred 1.423315, acc 0.540373, acc_real 0.911151, acc_fake 0.175096
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 7.470469, con 1.003432, intra 3.791795, pred 2.675242, acc 0.832298, acc_real 0.839506, acc_fake 0.814815|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.742980, con 3.829289, intra 5.444471, pred 6.469220, acc 0.577640, acc_real 0.543210, acc_fake 0.604938
   Epoch 18| use the attention agg context information
-train loss 1.969213, con 0.036191, intra 1.297425, pred 0.635597, acc 0.930233, acc_real 0.928232, acc_fake 0.932112|use the attention agg context information
 use the attention agg context information
-valid loss 4.596763, con 1.470132, intra 1.703698, pred 1.422934, acc 0.546584, acc_real 0.923974, acc_fake 0.175096
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 10.885259, con 2.138584, intra 4.767047, pred 3.979628, acc 0.875776, acc_real 0.876543, acc_fake 0.864198|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.738096, con 3.823920, intra 5.449142, pred 6.465036, acc 0.565217, acc_real 0.456790, acc_fake 0.666667
   Epoch 19| use the attention agg context information
-train loss 2.090933, con 0.149088, intra 1.306415, pred 0.635430, acc 0.937984, acc_real 0.961240, acc_fake 0.914729|use the attention agg context information
 use the attention agg context information
-valid loss 4.542112, con 1.425452, intra 1.693063, pred 1.423597, acc 0.527950, acc_real 0.898328, acc_fake 0.163050
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 5.993837, con 1.259792, intra 2.695581, pred 2.038465, acc 0.826087, acc_real 0.802469, acc_fake 0.839506|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.776274, con 3.843388, intra 5.463960, pred 6.468925, acc 0.552795, acc_real 0.432099, acc_fake 0.666667
   Epoch 20| use the attention agg context information
-train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.976744, acc_real 0.976744, acc_fake 0.976744|use the attention agg context information
 use the attention agg context information
-valid loss 4.515574, con 1.398397, intra 1.694246, pred 1.422931, acc 0.552795, acc_real 0.911151, acc_fake 0.201339
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 3.680413, con 0.805640, intra 1.544738, pred 1.330035, acc 0.857143, acc_real 0.814815, acc_fake 0.888889|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.452011, con 3.518827, intra 5.463380, pred 6.469805, acc 0.565217, acc_real 0.456790, acc_fake 0.666667
   Epoch 21| use the attention agg context information
-train loss 0.000000, con 0.000000, intra 0.000000, pred 0.000000, acc 0.945736, acc_real 0.962180, acc_fake 0.928232|use the attention agg context information
 use the attention agg context information
-valid loss 4.506084, con 1.386790, intra 1.696961, pred 1.422334, acc 0.515528, acc_real 0.835994, acc_fake 0.201339
-  training stop in epoch 11.
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 6.514646, con 0.898307, intra 2.962774, pred 2.653565, acc 0.869565, acc_real 0.839506, acc_fake 0.888889|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.499429, con 3.583946, intra 5.438804, pred 6.476679, acc 0.546584, acc_real 0.407407, acc_fake 0.679012
+  Epoch 22| use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 6.541010, con 1.016464, intra 2.860778, pred 2.663768, acc 0.869565, acc_real 0.851852, acc_fake 0.876543|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.404440, con 3.474236, intra 5.458533, pred 6.471669, acc 0.552795, acc_real 0.432099, acc_fake 0.666667
+  Epoch 23| use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 3.588050, con 0.456086, intra 1.829630, pred 1.302333, acc 0.838509, acc_real 0.839506, acc_fake 0.827160|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.613884, con 3.646824, intra 5.493756, pred 6.473303, acc 0.565217, acc_real 0.456790, acc_fake 0.666667
+  Epoch 24| use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 5.597766, con 1.054405, intra 2.581114, pred 1.962247, acc 0.875776, acc_real 0.864198, acc_fake 0.876543|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.739277, con 3.743975, intra 5.521425, pred 6.473878, acc 0.565217, acc_real 0.469136, acc_fake 0.654321
+  Epoch 25| use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 1.614261, con 0.230122, intra 0.717354, pred 0.666785, acc 0.888199, acc_real 0.839506, acc_fake 0.925926|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.949697, con 3.973544, intra 5.507594, pred 6.468559, acc 0.546584, acc_real 0.444444, acc_fake 0.641975
+  Epoch 26| use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+train loss 5.587719, con 1.495553, intra 2.114028, pred 1.978139, acc 0.888199, acc_real 0.876543, acc_fake 0.888889|use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+valid loss 15.793958, con 3.821358, intra 5.506119, pred 6.466480, acc 0.559006, acc_real 0.469136, acc_fake 0.641975
+  training stop in epoch 17.
   the best model had been saved to  ./FinalModel_gossipcop_glm_origin_clu17_lClu0.2_lTri0.6_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse.pt
 ===> construct multiple binary classifiers to detect fake news within each news cluster.
 use the attention agg context information
@@ -146,39 +671,287 @@ use the attention agg context information
 use the attention agg context information
 use the attention agg context information
 use the attention agg context information
---- clu  0|2    fake, 4    real in 6    train| 7    fake, 186  real in 193  test
-          pos:tn 0   fp 7   fn 4   tp 182|acc 0.943005 acc_real 0.962963 acc_fake 0.000000
---- clu  1|9    fake, 9    real in 18   train| 14   fake, 484  real in 498  test
-          pos:tn 4   fp 10  fn 178 tp 306|acc 0.622490 acc_real 0.968354 acc_fake 0.021978
---- clu  2|5    fake, 7    real in 12   train| 5    fake, 243  real in 248  test
-          pos:tn 2   fp 3   fn 78  tp 165|acc 0.673387 acc_real 0.982143 acc_fake 0.025000
---- clu  3|This cluster has no test data.
---- clu  4|0    fake, 1    real in 1    train| 0    fake, 5    real in 5    test
-          pos:tn 0   fp 0   fn 0   tp 5  |acc 1.000000 acc_real 1.000000 acc_fake 0.000000
---- clu  5|6    fake, 3    real in 9    train| 4    fake, 111  real in 115  test
-          pos:tn 1   fp 3   fn 30  tp 81 |acc 0.713043 acc_real 0.964286 acc_fake 0.032258
---- clu  6|2    fake, 3    real in 5    train| 3    fake, 65   real in 68   test
-          pos:tn 2   fp 1   fn 0   tp 65 |acc 0.985294 acc_real 0.984848 acc_fake 1.000000
---- clu  7|10   fake, 12   real in 22   train| 25   fake, 698  real in 723  test
-          pos:tn 22  fp 3   fn 554 tp 144|acc 0.229599 acc_real 0.979592 acc_fake 0.038194
---- clu  8|This cluster has no test data.
---- clu  9|0    fake, 2    real in 2    train| 1    fake, 19   real in 20   test
-          pos:tn 0   fp 1   fn 0   tp 19 |acc 0.950000 acc_real 0.950000 acc_fake 0.000000
---- clu 10|11   fake, 3    real in 14   train| 23   fake, 414  real in 437  test
-          pos:tn 14  fp 9   fn 202 tp 212|acc 0.517162 acc_real 0.959276 acc_fake 0.064815
---- clu 11|2    fake, 2    real in 4    train| 0    fake, 11   real in 11   test
-          pos:tn 0   fp 0   fn 1   tp 10 |acc 0.909091 acc_real 1.000000 acc_fake 0.000000
---- clu 12|12   fake, 11   real in 23   train| 40   fake, 636  real in 676  test
-          pos:tn 39  fp 1   fn 587 tp 49 |acc 0.130178 acc_real 0.980000 acc_fake 0.062300
---- clu 13|2    fake, 2    real in 4    train| 7    fake, 204  real in 211  test
-          pos:tn 5   fp 2   fn 62  tp 142|acc 0.696682 acc_real 0.986111 acc_fake 0.074627
---- clu 14|0    fake, 1    real in 1    train| 0    fake, 11   real in 11   test
-          pos:tn 0   fp 0   fn 1   tp 10 |acc 0.909091 acc_real 1.000000 acc_fake 0.000000
---- clu 15|4    fake, 5    real in 9    train| 10   fake, 322  real in 332  test
-          pos:tn 0   fp 10  fn 4   tp 318|acc 0.957831 acc_real 0.969512 acc_fake 0.000000
---- clu 16|14   fake, 14   real in 28   train| 24   fake, 807  real in 831  test
-          pos:tn 17  fp 7   fn 523 tp 284|acc 0.362214 acc_real 0.975945 acc_fake 0.031481
---- overall acc 0.479105 acc_real 0.972182 acc_fake 0.045494
-===> final test results: acc 0.4791 acc_real 0.9722 acc_fake 0.0455 .
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+use the attention agg context information
+--- clu  0|4    fake, 1    real in 5    train| 8    fake, 43   real in 51   test
+          pos:tn 6   fp 2   fn 38  tp 5  |acc 0.215686 acc_real 0.714286 acc_fake 0.136364
+--- clu  1|1    fake, 2    real in 3    train| 3    fake, 60   real in 63   test
+          pos:tn 1   fp 2   fn 13  tp 47 |acc 0.761905 acc_real 0.959184 acc_fake 0.071429
+--- clu  2|0    fake, 7    real in 7    train| 3    fake, 128  real in 131  test
+          pos:tn 0   fp 3   fn 0   tp 128|acc 0.977099 acc_real 0.977099 acc_fake 0.000000
+--- clu  3|0    fake, 3    real in 3    train| 3    fake, 29   real in 32   test
+          pos:tn 0   fp 3   fn 0   tp 29 |acc 0.906250 acc_real 0.906250 acc_fake 0.000000
+--- clu  4|12   fake, 3    real in 15   train| 10   fake, 190  real in 200  test
+          pos:tn 10  fp 0   fn 188 tp 2  |acc 0.060000 acc_real 1.000000 acc_fake 0.050505
+--- clu  5|6    fake, 4    real in 10   train| 9    fake, 215  real in 224  test
+          pos:tn 7   fp 2   fn 158 tp 57 |acc 0.285714 acc_real 0.966102 acc_fake 0.042424
+--- clu  6|2    fake, 2    real in 4    train| 7    fake, 188  real in 195  test
+          pos:tn 5   fp 2   fn 65  tp 123|acc 0.656410 acc_real 0.984000 acc_fake 0.071429
+--- clu  7|5    fake, 7    real in 12   train| 9    fake, 399  real in 408  test
+          pos:tn 5   fp 4   fn 181 tp 218|acc 0.546569 acc_real 0.981982 acc_fake 0.026882
+--- clu  8|8    fake, 8    real in 16   train| 9    fake, 362  real in 371  test
+          pos:tn 4   fp 5   fn 121 tp 241|acc 0.660377 acc_real 0.979675 acc_fake 0.032000
+--- clu  9|0    fake, 1    real in 1    train| 0    fake, 1    real in 1    test
+          pos:tn 0   fp 0   fn 0   tp 1  |acc 1.000000 acc_real 1.000000 acc_fake 0.000000
+--- clu 10|4    fake, 4    real in 8    train| 5    fake, 295  real in 300  test
+          pos:tn 4   fp 1   fn 179 tp 116|acc 0.400000 acc_real 0.991453 acc_fake 0.021858
+--- clu 11|9    fake, 13   real in 22   train| 37   fake, 1265 real in 1302 test
+          pos:tn 0   fp 37  fn 86  tp 1179|acc 0.905530 acc_real 0.969572 acc_fake 0.000000
+--- clu 12|2    fake, 0    real in 2    train| 3    fake, 0    real in 3    test
+          pos:tn 3   fp 0   fn 0   tp 0  |acc 1.000000 acc_real 0.000000 acc_fake 1.000000
+--- clu 13|6    fake, 12   real in 18   train| 25   fake, 587  real in 612  test
+          pos:tn 4   fp 21  fn 59  tp 528|acc 0.869281 acc_real 0.961749 acc_fake 0.063492
+--- clu 14|This cluster has no test data.
+--- clu 15|9    fake, 9    real in 18   train| 14   fake, 295  real in 309  test
+          pos:tn 4   fp 10  fn 78  tp 217|acc 0.715210 acc_real 0.955947 acc_fake 0.048780
+--- clu 16|11   fake, 4    real in 15   train| 18   fake, 159  real in 177  test
+          pos:tn 14  fp 4   fn 107 tp 52 |acc 0.372881 acc_real 0.928571 acc_fake 0.115702
+--- overall acc 0.687372 acc_real 0.968411 acc_fake 0.050000
+===> final test results: acc 0.6874 acc_real 0.9684 acc_fake 0.0500 .
 
 进程已结束，退出代码为 0

@@ -48,11 +48,11 @@ def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, opt
         input_cpu = input_label.detach().cpu()
         pre_cpu = pre_labels.cpu()
 
-        real_index = input_cpu[:, 1] == 1
-        fake_index = input_cpu[:, 0] == 1
+        real_index = input_cpu[:, 0] == 1
+        fake_index = input_cpu[:, 0] == 0
 
-        input_labels_flat = input_cpu.argmax(dim=1)
-        pre_labels_flat = pre_cpu.argmax(dim=1)
+        input_labels_flat = input_cpu[:, 0]
+        pre_labels_flat = pre_cpu[:, 0]
 
         acc = accuracy_score(input_labels_flat, pre_labels_flat)
         acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
@@ -144,11 +144,11 @@ def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_c
         input_cpu = input_label.detach().cpu()
         pre_cpu = pre_labels.cpu()
 
-        real_index = input_cpu[:, 1] == 1
-        fake_index = input_cpu[:, 0] == 1
+        real_index = input_cpu[:, 0] == 1
+        fake_index = input_cpu[:, 0] == 0
 
-        input_labels_flat = input_cpu[:, 1]
-        pre_labels_flat = pre_cpu[:, 1]
+        input_labels_flat = input_cpu[:, 0]
+        pre_labels_flat = pre_cpu[:, 0]
 
         acc = accuracy_score(input_labels_flat, pre_labels_flat)
         acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
