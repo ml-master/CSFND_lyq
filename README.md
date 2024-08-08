@@ -51,7 +51,11 @@ PYTHONUNBUFFERED=1 CUDA_VISIBLE_DEVICES=0 nohup python run.py --dataset=gossipco
 ## Results
 
 ### Main Results
-![image-result](image-result.png)
+| acc    | acc_real | acc\_fake |
+| ------ | -------- | --------- |
+| 0.6702 | 0.6601   | 0.7028    |
+
+
 
 # Reference
 ```
