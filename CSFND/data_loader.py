@@ -64,13 +64,13 @@ def load_data(dataset, batch_size, options):
 
     train_loader = torch.utils.data.DataLoader(dataset=train_data,
                                                batch_size=batch_size,
-                                               shuffle=True)
+                                               shuffle=True, drop_last=True)
     test_loader = torch.utils.data.DataLoader(dataset=test_data,
                                                batch_size=batch_size,
-                                               shuffle=False)
+                                               shuffle=False, drop_last=True)
     valid_loader = torch.utils.data.DataLoader(dataset=valid_data,
                                                batch_size=batch_size,
-                                               shuffle=False)
+                                               shuffle=False, drop_last=True)
 
     return train_loader, valid_loader, test_loader
 

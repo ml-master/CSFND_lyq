@@ -39,3 +39,8 @@ gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AG
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6012 & 0.5760 & 0.6514 
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6874 & 0.9684 & 0.0500 
 gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6258 & 0.5972 & 0.6783 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6687 & 0.6471 & 0.6978 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6874 & 0.9684 & 0.0500 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6984 & 0.7631 & 0.2228 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6800 & 0.7731 & 0.2715 
+gossipcop_glm_origin_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.5898 & 0.5549 & 0.7031 

@@ -8,31 +8,6 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 
-def my_confusion(y_true, y_pred):
-    """
-    计算混淆矩阵的四个值：真负类（TN）、假正类（FP）、假负类（FN）、真正类（TP）。
-
-    参数:
-    y_true (np.array): 真实标签
-    y_pred (np.array): 预测标签
-
-    返回:
-    tuple: (tn, fp, fn, tp)
-        - tn: 真负类
-        - fp: 假正类
-        - fn: 假负类
-        - tp: 真正类
-    """
-    tn, fp, fn, tp = 0, 0, 0, 0
-    real_mask = y_true == 1
-    fake_mask = y_true == 0
-
-    tn = np.sum(y_pred[fake_mask] == 0)
-    fp = np.sum(y_pred[fake_mask] == 1)
-    fn = np.sum(y_pred[real_mask] == 0)
-    tp = np.sum(y_pred[real_mask] == 1)
-
-    return tn, fp, fn, tp
 
 
 def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear', verbose=False):
@@ -55,8 +30,8 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
         te_label = y_true[:, 0]
 
         # 1: positive => real pre, recall, f1
-        # tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
-        tn, fp, fn, tp = my_confusion(te_label, y_pre)
+        tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0,1]).ravel() # TODO confusion_matrix返回是否正确
+        # tn, fp, fn, tp = my_confusion(te_label, y_pre)
 
         # pres, recalls, f1s, supports = precision_recall_fscore_support(
         #     te_label, y_pre, labels=[0, 1], average=None)
@@ -68,7 +43,7 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
         fn_list.append(fn)
         tp_list.append(tp)
 
-        acc, acc_real, acc_fake = acc_compute(tn, fp, fn, tp)
+        acc, acc_real, acc_fake = acc_compute(tn, fp, fn, tp) # TODO ACC计算是否正确
 
         if verbose:
             print('acc {:<4f} acc_real {:<4f} acc_fake {:<4f}'.format(
@@ -127,8 +102,8 @@ def multi_classifiers(args, train_embs, test_embs, cluster_num, svm_type='linear
 
 
 
-            # tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0, 1]).ravel()
-            tn, fp, fn, tp = my_confusion(te_label, y_pre)
+            tn, fp, fn, tp = confusion_matrix(te_label, y_pre, labels=[0,1]).ravel()
+            # tn, fp, fn, tp = my_confusion(te_label, y_pre)
             # pres, recalls, f1s, supports = precision_recall_fscore_support(
             #     te_label, y_pre, labels=[0, 1], average=None)
             if verbose:
@@ -193,9 +168,10 @@ def pre_recall_f1_compute(tn, fp, fn, tp):
 
 def acc_compute(tn, fp, fn, tp):
     """返回 acc,acc_real,acc_fake"""
-    acc = (tp + tn) * 1.0 / (tp + tn + fp + fn)
-    acc_real = tp * 1.0 / (tp + fp) if tp + fp != 0 else 0
-    acc_fake = tn * 1.0 / (tn + fn) if tn + fn != 0 else 0
+
+    acc = (tp + tn) / (tn + tp + fn + fp)
+    acc_real = tp / (tp + fn) if tp + fn > 0 else 0
+    acc_fake = tn / (tn + fp) if tn + fp > 0 else 0
     return acc, acc_real, acc_fake
 
 
@@ -329,5 +305,4 @@ class PreData(data.Dataset):
             one_datas = one_datas.cuda()
             one_labels = one_labels.cuda()
         return one_datas, one_labels
-
 

@@ -45,26 +45,19 @@ def train_model(train_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, opt
         pre_labels[pre_labels > 0.5] = 1
         pre_labels[pre_labels <= 0.5] = 0
 
-        input_cpu = input_label.detach().cpu()
-        pre_cpu = pre_labels.cpu()
+        input_cpu = input_label.detach().cpu()[:,0]
+        pre_cpu = pre_labels.cpu()[:,0]
 
-        real_index = input_cpu[:, 0] == 1
-        fake_index = input_cpu[:, 0] == 0
+        real_mask = input_cpu==1
+        fake_mask = input_cpu==0
 
-        input_labels_flat = input_cpu[:, 0]
-        pre_labels_flat = pre_cpu[:, 0]
-
-        acc = accuracy_score(input_labels_flat, pre_labels_flat)
-        acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
-        acc_fake = accuracy_score(input_labels_flat[fake_index], pre_labels_flat[fake_index])
-
-        skl_acc += (pre_labels_flat == input_labels_flat).sum().item()
-        skl_acc_real += (pre_labels_flat[real_index] == input_labels_flat[real_index]).sum().item()
-        skl_acc_fake += (pre_labels_flat[fake_index] == input_labels_flat[fake_index]).sum().item()
+        skl_acc += (input_cpu == pre_cpu).sum().item()
+        skl_acc_real += (pre_cpu[real_mask]==1).sum().item()
+        skl_acc_fake += (pre_cpu[fake_mask]==0).sum().item()
 
         train_num += input_label.size(0)
-        train_real_num += real_index.sum().item()
-        train_fake_num += fake_index.sum().item()
+        train_real_num += real_mask.sum().item()
+        train_fake_num += fake_mask.sum().item()
 
         if modality == 'text':
             context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,
@@ -141,26 +134,19 @@ def test_model(test_data, model, modality, ti_ids, te_clu_ids, im_clu_ids, cls_c
         pre_labels[pre_labels > 0.5] = 1
         pre_labels[pre_labels <= 0.5] = 0
 
-        input_cpu = input_label.detach().cpu()
-        pre_cpu = pre_labels.cpu()
+        input_cpu = input_label.detach().cpu()[:, 0]
+        pre_cpu = pre_labels.cpu()[:, 0]
 
-        real_index = input_cpu[:, 0] == 1
-        fake_index = input_cpu[:, 0] == 0
+        real_mask = input_cpu == 1
+        fake_mask = input_cpu == 0
 
-        input_labels_flat = input_cpu[:, 0]
-        pre_labels_flat = pre_cpu[:, 0]
-
-        acc = accuracy_score(input_labels_flat, pre_labels_flat)
-        acc_real = accuracy_score(input_labels_flat[real_index], pre_labels_flat[real_index])
-        acc_fake = accuracy_score(input_labels_flat[fake_index], pre_labels_flat[fake_index])
-
-        skl_acc += (pre_labels_flat == input_labels_flat).sum().item()
-        skl_acc_real += (pre_labels_flat[real_index] == input_labels_flat[real_index]).sum().item()
-        skl_acc_fake += (pre_labels_flat[fake_index] == input_labels_flat[fake_index]).sum().item()
+        skl_acc += (input_cpu == pre_cpu).sum().item()
+        skl_acc_real += (pre_cpu[real_mask] == 1).sum().item()
+        skl_acc_fake += (pre_cpu[fake_mask] == 0).sum().item()
 
         test_num += input_label.size(0)
-        test_real_num += real_index.sum().item()
-        test_fake_num += fake_index.sum().item()
+        test_real_num += real_mask.sum().item()
+        test_fake_num += fake_mask.sum().item()
 
         if modality == 'text':
             context_triplet_loss = triplet_class_loss(gru_fused, args.margin_class, te_input_cluster_ids, input_label,
@@ -420,3 +406,5 @@ def adjust_learning_rate(optimizer, epoch):
     # else:
     #     for group in optimizer.param_groups:
     #         group['lr'] = 1e-6
+
+

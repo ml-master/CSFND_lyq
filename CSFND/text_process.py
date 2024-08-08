@@ -1,4 +1,6 @@
 import os
+
+import torch
 import tqdm
 import re
 from PIL import Image
@@ -81,6 +83,21 @@ def picture_filter(im_path):
     ])
     im = trans(im)  # type is tensor
 
+    return im
+
+
+def picture_filter2(im_path):
+    try:
+        im = Image.open(im_path).convert('RGB')
+        trans = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        ])
+        im = trans(im)
+    except (FileNotFoundError, OSError):
+        im = torch.randn(3, 224, 224)
+        im = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(im)
     return im
 
 
@@ -229,7 +246,12 @@ def get_gossipcop_matrix_origin(data_type):
     labels = df["label"].map(lambda x: label_dict[x]).tolist()
     text_image_ids = df["id"].tolist()
     for img in tqdm.tqdm(image_lists_pth):
-        image_lists.append(picture_filter(img))
+        image_lists.append(picture_filter2(img)) # 当图片文件不存在时使用随机向量代替
+
+    shape = image_lists[0].shape
+    for img in image_lists:
+        assert img.shape == shape
+
     assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
 
     return text_lists, image_lists, labels, text_image_ids
