@@ -1,17 +1,17 @@
 twitter:  # english dataset
-    bert_model: ./model/bert_base_uncased
+    bert_model: ./model/bert-base-multilingual-cased
     vgg_model: vgg19
     fine_tune_bert: False
     fine_tune_vgg: False
-    token_length: 25
-    learning_rate: 0.0005
+    token_length: 25 # 25
+    learning_rate: 0.0001
 weibo:  # chinese dataset
     bert_model: ./model/bert_base_chinese
     vgg_model: vgg19
     fine_tune_bert: False
     fine_tune_vgg: False
     token_length: 160
-    learning_rate: 0.001
+    learning_rate: 0.0005
 gossipcop_glm: # english dataset 加载ML 课程的数据集
     bert_model: ./model/bert_base_uncased
     vgg_model: vgg19

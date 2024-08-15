@@ -1,3 +1,7 @@
 weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_mlp     |0.8636 & 0.8576 & 0.8606 & 0.8587 & 0.8537 & 0.8599 & 0.8568 & 0.8587
 =========== 以上结果是环境不一致的结果，且 batch-size=32
 weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_mlp     |0.8703 & 0.8773 & 0.8738 & 0.8711 & 0.8720 & 0.8647 & 0.8683 & 0.8711
+weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6524 & 0.6244 & 0.6764 # bs = 16 & lr = 0.001 & dropout = 0.5 & wd=5e-5 & es-patience=6
+weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6774 & 0.5843 & 0.7571 # bs = 16 & lr = 0.0005 & dropout = 0.5 & wd=5e-5 & es-patience=6
+weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6875 & 0.6264 & 0.7398 # bs = 16 & lr = 0.0005 & dropout = 0.5 & wd=1e-5 & es-patience=6
+weibo   _CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.6851 & 0.5846 & 0.7712 # bs = 16 & lr = 0.0005 & dropout = 0.5 & wd=1e-5 & es-patience=9

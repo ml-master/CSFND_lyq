@@ -56,7 +56,7 @@ class PreDataset(data.Dataset):
         return self.length
 
 
-def load_data(dataset, batch_size, options):
+def  load_data(dataset, batch_size, options):
 
     train_data = PreDataset(dataset, 'train', options)
     test_data = PreDataset(dataset, 'test', options)

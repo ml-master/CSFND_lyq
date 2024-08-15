@@ -1,4 +1,5 @@
 import os
+import random
 
 import torch
 import tqdm
@@ -86,8 +87,10 @@ def picture_filter(im_path):
     return im
 
 
-def picture_filter2(im_path):
+def picture_filter2(im_path,use_random=True):
     try:
+        if im_path == "":
+            raise OSError
         im = Image.open(im_path).convert('RGB')
         trans = transforms.Compose([
             transforms.Resize((224, 224)),
@@ -96,14 +99,17 @@ def picture_filter2(im_path):
         ])
         im = trans(im)
     except (FileNotFoundError, OSError):
-        im = torch.randn(3, 224, 224)
-        im = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(im)
+        if use_random:
+            im = torch.randn(3, 224, 224)
+            im = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(im)
+        else:
+            raise "No image can find"
     return im
 
 
 def get_weibo_matrix(data_type):
-    if data_type not in ['train', 'test']:
-        raise ValueError('ERROR! data type must be train or test.')
+    if data_type not in ['train', 'test', 'valid']:
+        raise ValueError('ERROR! data type must be train or test or valid.')
     # corpus_dir = '/media/hibird/data/code_for_github/weibo_dataset'
     #################################################################
     corpus_dir = '../weibo_dataset'
@@ -124,14 +130,20 @@ def get_weibo_matrix(data_type):
         one_rumor = text_filter_chinese(one_rumor)  #文本处理
         if one_rumor:
             images = rumor_content[idx - 1].split('|')
-            for image in images:
+            has_image = False
+            for image in images: # 遍历该新闻相关的图片
                 img = image.split('/')[-1]
                 if img in rumor_images:
                     image_lists.append(picture_filter('{}/rumor_images/{}'.format(corpus_dir, img)))
                     labels.append([0, 1])
                     text_lists.append(one_rumor)
                     text_image_ids.append('{}|{}'.format(tweet_id, img.split('.')[0]))
-                    break
+                    has_image = True
+                    break # 只需要一张图片
+
+            if not has_image:
+                print(f'no image {tweet_id}')
+
 
     n_lines = len(nonrumor_content)
     for idx in tqdm.tqdm(range(2, n_lines, 3)):
@@ -140,6 +152,7 @@ def get_weibo_matrix(data_type):
         one_nonrumor = text_filter_chinese(one_nonrumor)
         if one_nonrumor:
             images = nonrumor_content[idx - 1].split('|')
+            has_image = False
             for image in images:
                 img = image.split('/')[-1]
                 if img in nonrumor_images:
@@ -147,8 +160,12 @@ def get_weibo_matrix(data_type):
                     labels.append([1, 0])
                     text_lists.append(one_nonrumor)
                     text_image_ids.append('{}|{}'.format(tweet_id, img.split('.')[0]))
+                    has_image = True
                     break
-    assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
+            if not has_image:
+                print(f'no image {tweet_id}')
+
+    assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids) # 每条新闻至少一张图片 TODO 是否需要随机向量代替
     # print('   {} samples in {} set.'.format(len(labels), data_type))
     # print('  type of text list {}, image lists {}, labels {}, text image ids {}'.format(
     #     type(text_lists), type(image_lists), type(labels), type(text_image_ids),
@@ -186,7 +203,7 @@ def get_twitter_matrix(data_type):
         tweet_id = args[0]  # 找到 tweet_id
         for img in args[image_index].split(','):  # 取图片
             if img in image_name:  # 以图片为准，对过滤后的图片数据进行处理，从而得到数据集。
-                image_lists.append(picture_filter('{}/{}'.format(image_dirs, image_files[image_name.index(img)])))
+                image_lists.append(picture_filter('{}/{}'.format(image_dirs, image_files[image_name.index(img)]))) # 读取图片文件并转化为张量
                 labels.append(label_dict[args[-1]])  # 加入label列表
                 tweet_text = args[1]
                 tweet_text = text_filter_english(tweet_text)  # 过滤英文
@@ -201,6 +218,52 @@ def get_twitter_matrix(data_type):
     # ))
     # 输出文本列表 图像列表，标签，和文本对应的图像id
     return text_lists, image_lists, labels, text_image_ids
+
+
+
+
+def get_twitter_matrix2(data_type):
+    text_lists = []  # [train_number]
+    image_lists = []  # [train_num]
+    labels = []  # [train_num, 2]
+    label_dict = {'fake': [0, 1], 'real': [1, 0]}
+    text_image_ids = []
+
+    # corpus_dir = '/home/hibird/plw/corpus/image-verification-corpus-master_original/mediaeval2016'
+    #########################################
+    corpus_dir = '../twitter_dataset'
+    df_file_name = "{}/{}.csv".format(corpus_dir, data_type)
+    df = pd.read_csv(df_file_name, sep='\t', encoding='utf-8')
+
+    image_map = {
+        f.split('.')[0] : corpus_dir + '/images/' + f for f in os.listdir(corpus_dir + '/' + 'images')
+    }
+    image_map[""] = ""
+
+    def get_image_name(images):
+        union_set = set(images.split(',')) & set(image_map.keys())
+        return union_set.pop() if  len(union_set) > 0 else ""
+
+    for item in df.itertuples(index=True):
+        text_lists.append(text_filter_english(item.post_text))
+        labels.append(label_dict[item.label])
+        tweet_id = item.post_id
+        image_name = get_image_name(item.image_id)
+        image_lists.append(picture_filter2(
+            image_map[image_name]
+        ))
+        text_image_ids.append('{}|{}'.format(tweet_id, image_name))
+
+
+
+    assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
+    # print('   {} samples in {} set.'.format(len(labels), data_type))
+    # print('  type of text list {}, image lists {}, labels {}, event labels {}, text image ids {}'.format(
+    #     type(text_lists), type(image_lists), type(labels), type(event_labels), type(text_image_ids),
+    # ))
+    # 输出文本列表 图像列表，标签，和文本对应的图像id
+    return text_lists, image_lists, labels, text_image_ids
+
 
 
 def get_gossipcop_matrix(data_type, is_generated):
@@ -262,7 +325,8 @@ def dataset_filter(dataset_name, data_type):
         text_lists, image_lists, labels, text_image_ids = get_weibo_matrix(data_type)
 
     elif dataset_name == 'twitter':
-        text_lists, image_lists, labels, text_image_ids = get_twitter_matrix(data_type)
+        # text_lists, image_lists, labels, text_image_ids = get_twitter_matrix(data_type)
+        text_lists, image_lists, labels, text_image_ids = get_twitter_matrix2(data_type)
 
     elif dataset_name == 'gossipcop_glm':
         text_lists, image_lists, labels, text_image_ids = get_gossipcop_matrix(data_type, True)
