@@ -1,8 +1,7 @@
 # 忽略数据集
 CSFND/data_files/
 gossipcop/top_img/
-weibo_dataset/
-twitter_dataset/
+
 
 # 忽略预训练模型
 CSFND/model/
@@ -12,17 +11,7 @@ CSFND/*.pt
 
 # 忽略编译文件
 CSFND/__pycache__/
-/gossipcop_dataset/gossipcop_v3-1_style_based_fake_train.json
-/gossipcop_dataset/gossipcop_v3-1_style_based_fake_test.json
-/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_train.json
-/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_valid.json
-/gossipcop_dataset/gossipcop_v3-1_style_based_fake.json
-/gossipcop_dataset/top_img/
-/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length.json
-/gossipcop_dataset/data_process.ipynb
-/gossipcop_dataset/gossipcop_v3_keep_data_in_proper_length_test.json
-/gossipcop_glm_origin/top_img/
-/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_train.json
-/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_test.json
-/gossipcop_glm_origin/gossipcop_v3_keep_data_in_proper_length_valid.json
-
+/weibo_dataset/nonrumor_images/
+/weibo_dataset/rumor_images/
+/twitter_dataset/images/
+/twitter_dataset/origin/
