@@ -87,6 +87,10 @@ def picture_filter(im_path):
     return im
 
 
+def generate_random_image_vector():
+    im = torch.randn(3, 224, 224)
+    return transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(im)
+
 def picture_filter2(im_path,use_random=True):
     try:
         if im_path == "":
@@ -320,6 +324,38 @@ def get_gossipcop_matrix_origin(data_type):
     return text_lists, image_lists, labels, text_image_ids
 
 
+def get_twitter_matrix_cheng(data_type):
+    text_lists = []  # [train_number]
+    image_lists = []  # [train_num]
+    labels = []  # [train_num, 2]
+    label_dict = {0: [0, 1], 1: [1, 0]}
+    text_image_ids = []
+
+    # corpus_dir = '/home/hibird/plw/corpus/image-verification-corpus-master_original/mediaeval2016'
+    #########################################
+    corpus_dir = '../twitter_cheng_dataset'
+    df_file_name = "{}/{}.csv".format(corpus_dir, data_type)
+    df = pd.read_csv(df_file_name, encoding='utf-8')
+
+
+
+    for item in df.itertuples(index=True):
+        text_lists.append(text_filter_english(item.text))
+        labels.append(label_dict[item.label])
+        tweet_id = item.id
+        image_name = ""
+        image_lists.append(generate_random_image_vector())
+        text_image_ids.append('{}|{}'.format(tweet_id, image_name))
+
+    assert len(text_lists) == len(image_lists) == len(labels) == len(text_image_ids)
+    # print('   {} samples in {} set.'.format(len(labels), data_type))
+    # print('  type of text list {}, image lists {}, labels {}, event labels {}, text image ids {}'.format(
+    #     type(text_lists), type(image_lists), type(labels), type(event_labels), type(text_image_ids),
+    # ))
+    # 输出文本列表 图像列表，标签，和文本对应的图像id
+    return text_lists, image_lists, labels, text_image_ids
+
+
 def dataset_filter(dataset_name, data_type):
     if dataset_name == 'weibo':
         text_lists, image_lists, labels, text_image_ids = get_weibo_matrix(data_type)
@@ -332,6 +368,8 @@ def dataset_filter(dataset_name, data_type):
         text_lists, image_lists, labels, text_image_ids = get_gossipcop_matrix(data_type, True)
     elif dataset_name == 'gossipcop_glm_origin':
         text_lists, image_lists, labels, text_image_ids = get_gossipcop_matrix_origin(data_type)
+    elif dataset_name == 'twitter_cheng':
+        text_lists, image_lists, labels, text_image_ids = get_twitter_matrix_cheng(data_type)
     else:
         raise ValueError('ERROR! Dataset must be weibo or twitter!')
 

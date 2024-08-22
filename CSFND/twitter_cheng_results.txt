@@ -1,0 +1,1 @@
+twitter_cheng_CLU17_lambdaClu0.20_lambdaTri0.60_UNSPRTrue_MultiCLSTrue_AGGTrue_AVGFalse_mlp     |0.5166 & 0.3949 & 0.6150 
