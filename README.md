@@ -58,6 +58,7 @@ PYTHONUNBUFFERED=1 CUDA_VISIBLE_DEVICES=0 nohup python run.py --dataset=gossipco
 | gossipcop_origin | 0.6702 | 0.6601   | 0.7028    |
 | weibo            | 0.6875 | 0.6264   | 0.7398    |
 | twitter          | 0.6932 | 0.5873   | 0.7785    |
+| 新twitter        | 0.5831 | 0.4417   | 0.6975    |
 
 # Reference
 ```
